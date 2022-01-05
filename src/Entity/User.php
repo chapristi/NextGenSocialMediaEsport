@@ -8,9 +8,11 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 
@@ -57,21 +59,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     #[Groups(["read:User"])]
-    private $id;
+    private ?int $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     #[Groups(["read:User", "write:User"])]
     #[Email(null,"it's not a mail" )]
-    private $email;
+    private ?string $email;
 
     #[ORM\Column(type: 'json')]
     #[Groups(["read:User"])]
-    private $roles = [];
+    private array $roles = [];
 
     #[ORM\Column(type: 'string')]
     #[Groups(["write:User"])]
+    #[Length(min: 5, max: 150, minMessage: "Your password is too short", maxMessage: "your password is too long")]
 
-    private $password;
+    private string $password;
 
     #[ORM\Column(type: 'boolean')]
     #[Groups(["read:User"])]

@@ -2,10 +2,10 @@
 
 namespace App\EventListener;
 
-use App\Entity\User;
+
+use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationSuccessEvent;
-use Symfony\Component\Security\Core\User\UserInterface;
+
 
 class JWTCreatedListener
 {
@@ -16,24 +16,20 @@ class JWTCreatedListener
 
     }
 
-    public function onAuthenticationSuccessResponse(AuthenticationSuccessEvent $event)
+    public function onJWTCreated(JWTCreatedEvent $event)
     {
-        $data = $event->getData();
-        $user = $event->getUser();
 
-        if (!$user instanceof UserInterface) {
-            return;
-        }
+        $request = $this->requestStack->getCurrentRequest();
 
-        if ($user instanceof User) {
-            $data["id"] = [
-                'id'        => $user->getId(),
-                'email'     => $user->getEmail(),
-                'roles'     => $user->getRoles(),
-            ];
-        }
+        $payload= $event->getData();
+        $payload['id'] = $request->getUser();
 
-        $event->setData($data);
+        $event->setData($payload);
+
+        $header        = $event->getHeader();
+        $header['cty'] = 'JWT';
+
+        $event->setHeader($header);
     }
 
 }

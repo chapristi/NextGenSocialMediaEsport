@@ -22,10 +22,12 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
             - '../src/Tests/'
-    acme_api.event.authentication_success_listener:
+    acme_api.event.jwt_created_listener:
         class: App\EventListener\JWTCreatedListener
+        arguments: [ '@request_stack' ]
         tags:
-            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_success, method: onAuthenticationSuccessResponse }
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: onJWTCreated }
+
     acme_api.event.jwt_invalid_listener:
         class: App\EventListener\JWTInvalidListener
         tags:
