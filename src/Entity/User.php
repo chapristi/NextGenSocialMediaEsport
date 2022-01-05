@@ -16,21 +16,21 @@ use Symfony\Component\Validator\Constraints\NotNull;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ApiResource(
-    normalizationContext: ["groups" => ["read:User"]],
-    denormalizationContext:["groups" => ["write:User"]],
     collectionOperations: [
         "get" => [],
         "post" => [],
         'create_user' => [
             "pagination_enabled"  => false,
             "path" => "/users/create",
-            
+
             "method" => "POST",
             "controller" => CreateUser::class,
-            
-            
+
+
         ]
     ],
+    denormalizationContext: ["groups" => ["write:User"]],
+    normalizationContext: ["groups" => ["read:User"]],
 )]
 
 class User implements UserInterface, PasswordAuthenticatedUserInterface
