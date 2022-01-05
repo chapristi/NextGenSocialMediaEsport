@@ -17,8 +17,12 @@ use Symfony\Component\Validator\Constraints\NotNull;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ApiResource(
     collectionOperations: [
-        "get" => [],
-        "post" => [],
+        "get" => [
+
+        ],
+        "post" => [
+
+        ],
         'create_user' => [
             "pagination_enabled"  => false,
             "path" => "/users/create",
@@ -28,6 +32,20 @@ use Symfony\Component\Validator\Constraints\NotNull;
 
 
         ]
+    ],
+    itemOperations: [
+        "get" => [
+            "security" => 'is_granted("ROLE_USER")',
+        ],
+        "put" => [
+            "security" => 'is_granted("EDIT_USER",object)',
+        ],
+        "delete" => [
+            "security" => 'is_granted("EDIT_USER",object)',
+        ],
+        "patch" => [
+            "security" => 'is_granted("EDIT_USER",object)',
+        ],
     ],
     denormalizationContext: ["groups" => ["write:User"]],
     normalizationContext: ["groups" => ["read:User"]],

@@ -17,7 +17,7 @@ class UserManager{
      * findEmail
      *
      * @param  mixed $email
-     * @return User
+     * @return User|null
      */
     public function findEmail(string $email):User|null
     {

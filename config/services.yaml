@@ -35,7 +35,7 @@ services:
         tags:
             - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_not_found, method: onJWTNotFound }
     acme_api.event.jwt_expired_listener:
-        class: App\EventListener\JWTExpiredListener
+        class: App\EventListener\JWTExpiredEvent
         tags:
             - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_expired, method: onJWTExpired }
 
