@@ -1,7 +1,7 @@
 <?php
 namespace App\Security;
 
-use App\Entity\User;
+
 use App\Entity\User as AppUser;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Exception\AccountExpiredException;
@@ -22,7 +22,7 @@ class UserChecker implements UserCheckerInterface
         }
 
         if (!$user->getIsVerified()) {
-            // the message passed to this exception is meant to be displayed to the user
+            // show if account is verified
             throw new CustomUserMessageAccountStatusException('You have to verif your account');
         }
     }
@@ -31,11 +31,6 @@ class UserChecker implements UserCheckerInterface
     {
         if (!$user instanceof AppUser) {
             return;
-        }
-
-        // user account is expired, the user may be notified
-        if (!$user->getIsVerified()) {
-            throw new AccountExpiredException('wtf');
         }
     }
 
