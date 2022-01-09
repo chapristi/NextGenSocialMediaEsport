@@ -5,6 +5,7 @@ namespace App\EventSubscriber;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Entity\User;
+use App\Services\Mail\MailService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
@@ -13,11 +14,9 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 final class BookMailSubscriber implements EventSubscriberInterface
 {
-    private $mailer;
-
-    public function __construct(MailerInterface $mailer)
+    public function __construct(private MailService $mailService )
     {
-        $this->mailer = $mailer;
+
     }
 
     public static function getSubscribedEvents()
@@ -29,19 +28,14 @@ final class BookMailSubscriber implements EventSubscriberInterface
 
     public function sendMail(ViewEvent $event): void
     {
-        $book = $event->getControllerResult();
+        $user = $event->getControllerResult();
         $method = $event->getRequest()->getMethod();
 
-        if (!$book instanceof Book || Request::METHOD_POST !== $method) {
+        if (!$user instanceof User || Request::METHOD_POST !== $method) {
             return;
         }
+        $this->mailService->sendMail("","","",[]);
 
-        $message = (new Email())
-            ->from('system@example.com')
-            ->to('contact@les-tilleuls.coop')
-            ->subject('A new book has been added')
-            ->text(sprintf('The book #%d has been added.', $book->getId()));
 
-        $this->mailer->send($message);
     }
 }
