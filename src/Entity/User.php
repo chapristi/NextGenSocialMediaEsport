@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Controller\Api\CreateUser;
 use App\Repository\UserRepository;
@@ -28,7 +29,6 @@ use Symfony\Component\Validator\Constraints\NotNull;
         'create_user' => [
             "pagination_enabled"  => false,
             "path" => "/users/create",
-
             "method" => "POST",
             "controller" => CreateUser::class,
 
@@ -50,6 +50,7 @@ use Symfony\Component\Validator\Constraints\NotNull;
         ],
     ],
     denormalizationContext: ["groups" => ["write:User"]],
+    #mercure: true,
     normalizationContext: ["groups" => ["read:User"]],
 )]
 
@@ -59,6 +60,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     #[Groups(["read:User"])]
+    #[ApiProperty(identifier: false)]
+
     private ?int $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
@@ -80,6 +83,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(["read:User"])]
 
     private bool $IsVerified = false;
+
+    #[ORM\Column(type: 'text')]
+    #[Groups(["read:User"])]
+
+    #[ApiProperty(identifier: true)]
+
+    private ?string $code;
     
     public function getId(): ?int
     {
@@ -159,6 +169,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $IsVerified): self
     {
         $this->IsVerified = $IsVerified;
+
+        return $this;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(string $code): self
+    {
+        $this->code = $code;
 
         return $this;
     }

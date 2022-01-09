@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 
 namespace App\Controller\Api;
@@ -12,17 +12,17 @@ class CreateUser extends AbstractController
 {
     public function __construct(protected UserManager $userManager)
     {
-        
+
     }
-    public function __invoke (User $data)
+    public function __invoke (User $data): array
     {
         $this -> userManager ->registerAccount($data);
         return [
             [
-                "message" => "succé" 
-            ,
-             $data
-             ]
+                "message" => "succé"
+                ,
+                $data
+            ]
         ];
     }
 }

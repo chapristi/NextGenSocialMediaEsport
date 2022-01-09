@@ -11,8 +11,9 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class UserManager{
     public function __construct(protected EntityManagerInterface $em, protected UserRepository $userRepository,protected UserPasswordHasherInterface $passwordService)
     {
-        
-    }    
+
+
+    }
     /**
      * findEmail
      *
@@ -21,13 +22,13 @@ class UserManager{
      */
     public function findEmail(string $email):User|null
     {
-       $user =  $this -> userRepository -> findBy(["email" => $email]);
-       if($user){
+        $user =  $this -> userRepository -> findBy(["email" => $email]);
+        if($user){
             return $user[0];
-       } 
-       return null;
+        }
+        return null;
     }
-    public function registerAccount(User $user)
+    public function registerAccount(User $user): User
     {
         if($this -> findEmail($user -> getEmail())){
             throw new  BadRequestException("cette adresse email existe déjà");
@@ -41,8 +42,6 @@ class UserManager{
         $this -> em -> persist($user);
         $this -> em -> flush();
         return $user;
-        
+
     }
 }
-    
-   
