@@ -25,7 +25,7 @@ class MailService implements MailServiceInterface
      * @param array $params
      * Possibility to send an email
      */
-    public function sendMail(string $user_mail, string $body, string $subject, array $params): void
+    public function sendMail(string $user_mail,  string $subject, string $body, array $params): void
     {
         $email = (new TemplatedEmail())
             ->from(new Address("chapristimailpro@gmail.com"))

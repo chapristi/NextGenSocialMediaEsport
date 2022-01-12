@@ -11,6 +11,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
@@ -84,13 +85,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     private bool $IsVerified = false;
 
+
+
     #[ORM\Column(type: 'text')]
     #[Groups(["read:User"])]
 
     #[ApiProperty(identifier: true)]
 
-    private ?string $code;
-    
+    private ?string $code ;
+
+    public function __construct()
+    {
+        $this->code = Uuid::v4();
+    }
     public function getId(): ?int
     {
         return $this->id;
