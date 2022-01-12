@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Controller\Api\CreateUser;
+use App\Controller\CheckMailController;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -39,6 +40,12 @@ use Symfony\Component\Validator\Constraints\NotNull;
         ]
     ],
     itemOperations: [
+    'verif_mail' => [
+        'method' => 'GET',
+        'path' => '/users/verif/{token}',
+        'controller' => CheckMailController::class,
+        'read' => false,
+        ],
         "get" => [
             "security" => 'is_granted("ROLE_USER")',
         ],
