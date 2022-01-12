@@ -36,7 +36,7 @@ final class UserMailSubscriber implements EventSubscriberInterface
 
         $this->mailService->sendMail(user_mail: "louis.0505@protonmail.com",subject: "Vous pouvez deshormez verifier votre compte",body: "MailTemplate/mailRegister.html.twig", params:[
 
-                    "uuid" => "sdkfh"
+                    "uuid" => $user[0][0]->getCode()
 
         ]);
     }
