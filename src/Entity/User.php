@@ -6,6 +6,8 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Controller\Api\CreateUser;
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -94,9 +96,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     private ?string $code ;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: VerifMail::class)]
+    private $verifMails;
+
     public function __construct()
     {
         $this->code = Uuid::v4();
+        $this->verifMails = new ArrayCollection();
     }
     public function getId(): ?int
     {
@@ -188,6 +194,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCode(string $code): self
     {
         $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|VerifMail[]
+     */
+    public function getVerifMails(): Collection
+    {
+        return $this->verifMails;
+    }
+
+    public function addVerifMail(VerifMail $verifMail): self
+    {
+        if (!$this->verifMails->contains($verifMail)) {
+            $this->verifMails[] = $verifMail;
+            $verifMail->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVerifMail(VerifMail $verifMail): self
+    {
+        if ($this->verifMails->removeElement($verifMail)) {
+            // set the owning side to null (unless already changed)
+            if ($verifMail->getUser() === $this) {
+                $verifMail->setUser(null);
+            }
+        }
 
         return $this;
     }
