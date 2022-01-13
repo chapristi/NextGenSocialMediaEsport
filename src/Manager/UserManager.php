@@ -28,7 +28,7 @@ class UserManager{
         }
         return null;
     }
-    public function registerAccount(User $user): User
+    public function registerAccount(User $user)
     {
         if($this -> findEmail($user -> getEmail())){
             throw new  BadRequestException("cette adresse email existe déjà");
@@ -41,7 +41,6 @@ class UserManager{
         $user -> setPassword($password);
         $this -> em -> persist($user);
         $this -> em -> flush();
-        return $user;
 
     }
 }

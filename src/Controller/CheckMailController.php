@@ -20,11 +20,12 @@ class CheckMailController extends AbstractController
            if (!$checkMail){
                throw new  BadRequestException("le token n'est pas valide");
             }
-            if (new  \DateTime() > $checkMail -> getCreatedAt()->modify('+ 5 hour')){
+            if (new \DateTime()>$checkMail->getCreatedAt()->modify('+ 2 hour')){
                 throw new  BadRequestException("le token a expiré");
             }
            $user= $checkMail->getUser();
            $user ->setIsVerified(true);
+           $this->entityManager->remove($checkMail);
            $this->entityManager->persist($user);
            $this->entityManager->flush();
            return $this->json([

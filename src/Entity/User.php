@@ -35,8 +35,6 @@ use Symfony\Component\Validator\Constraints\NotNull;
             "path" => "/users/create",
             "method" => "POST",
             "controller" => CreateUser::class,
-
-
         ]
     ],
     itemOperations: [
@@ -206,7 +204,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection|VerifMail[]
+     * @return Collection
      */
     public function getVerifMails(): Collection
     {
