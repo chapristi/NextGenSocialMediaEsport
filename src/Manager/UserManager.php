@@ -9,11 +9,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserManager{
-    public function __construct(protected EntityManagerInterface $em, protected UserRepository $userRepository,protected UserPasswordHasherInterface $passwordService)
-    {
-
-
-    }
+    public function __construct(
+        protected EntityManagerInterface $em,
+        protected UserRepository $userRepository,
+        protected UserPasswordHasherInterface $passwordService
+    )
+    {}
     /**
      * findEmail
      *
@@ -28,7 +29,7 @@ class UserManager{
         }
         return null;
     }
-    public function registerAccount(User $user)
+    public function registerAccount(User $user): User
     {
         if($this -> findEmail($user -> getEmail())){
             throw new  BadRequestException("cette adresse email existe déjà");
@@ -41,6 +42,7 @@ class UserManager{
         $user -> setPassword($password);
         $this -> em -> persist($user);
         $this -> em -> flush();
+        return $user;
 
     }
 }
