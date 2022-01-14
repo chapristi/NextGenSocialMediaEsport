@@ -5,7 +5,9 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\TeamsEsportRepository;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\String\Slugger\AsciiSlugger;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Gedmo\Mapping\Annotation as Gedmo;
 #[ORM\Entity(repositoryClass: TeamsEsportRepository::class)]
 #[ApiResource]
 class TeamsEsport
@@ -22,10 +24,19 @@ class TeamsEsport
     private $description;
 
     #[ORM\Column(type: 'string', length: 255)]
+    /**
+     * @Gedmo\Slug(fields={"name"})
+     */
     private $slug;
 
     #[ORM\Column(type: 'datetime')]
     private $createdAt;
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+
+
+    }
 
     public function getId(): ?int
     {
@@ -75,6 +86,7 @@ class TeamsEsport
 
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
+
         $this->createdAt = $createdAt;
 
         return $this;

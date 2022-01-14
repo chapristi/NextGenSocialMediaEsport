@@ -3,6 +3,7 @@ namespace App\Events;
 
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Paginator;
 use ApiPlatform\Core\EventListener\EventPriorities;
+use App\Entity\TeamsEsport;
 use App\Entity\User;
 use App\Entity\VerifMail;
 use App\Services\Mail\MailService;
@@ -39,9 +40,10 @@ final class UserMailSubscriber implements EventSubscriberInterface
 
 
 
+
         $method = $event->getRequest()->getMethod();
 
-        if ($user instanceof Paginator || !$user[0][0] instanceof User || Request::METHOD_POST !== $method) {
+        if (!is_array($user)  || $user instanceof Paginator || !$user[0][0] instanceof User || Request::METHOD_POST !== $method) {
             return;
         }
         $token = Uuid::uuid4();

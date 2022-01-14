@@ -13,6 +13,9 @@
             "./src/Entity/.gitignore"
         ]
     },
+    "behat/transliterator": {
+        "version": "v1.3.0"
+    },
     "brick/math": {
         "version": "0.9.3"
     },
@@ -105,6 +108,9 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
     },
+    "gedmo/doctrine-extensions": {
+        "version": "v3.5.0"
+    },
     "laminas/laminas-code": {
         "version": "4.5.1"
     },
@@ -182,6 +188,18 @@
     },
     "rector/rector": {
         "version": "0.12.12"
+    },
+    "stof/doctrine-extensions-bundle": {
+        "version": "1.7",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.2",
+            "ref": "6c1ceb662f8997085f739cd089bfbef67f245983"
+        },
+        "files": [
+            "./config/packages/stof_doctrine_extensions.yaml"
+        ]
     },
     "symfony/asset": {
         "version": "v6.0.1"
