@@ -39,13 +39,13 @@ use Symfony\Component\Validator\Constraints\NotNull;
     ],
     itemOperations: [
     'verif_mail' => [
-        'method' => 'GET',
+        'method' => 'POST',
         'path' => '/users/verif/{token}',
         'controller' => CheckMailController::class,
         'read' => false,
-        ],
+    ],
         "get" => [
-            "security" => 'is_granted("ROLE_USER")',
+
         ],
         "put" => [
             "security" => 'is_granted("EDIT_USER",object)',
@@ -64,11 +64,12 @@ use Symfony\Component\Validator\Constraints\NotNull;
 
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    #[ApiProperty(identifier: false)]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     #[Groups(["read:User"])]
-    #[ApiProperty(identifier: false)]
+
 
     private ?int $id;
 

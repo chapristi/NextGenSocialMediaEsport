@@ -2,40 +2,56 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\TeamsEsportRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Gedmo\Mapping\Annotation as Gedmo;
 #[ORM\Entity(repositoryClass: TeamsEsportRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    denormalizationContext: ["groups" => ["write:TeamsEsport"]],
+    #mercure: true,
+    normalizationContext: ["groups" => ["read:TeamsEsport"]],
+)]
 class TeamsEsport
 {
+    #[ApiProperty(identifier: false)]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    #[Groups(["read:TeamsEsport"])]
 
+    private $id;
+    #[Groups(["read:TeamsEsport","write:TeamsEsport"])]
     #[ORM\Column(type: 'string', length: 255)]
     private $name;
-
+    #[Groups(["read:TeamsEsport","write:TeamsEsport"])]
     #[ORM\Column(type: 'string', length: 255)]
     private $description;
 
+    #[Groups(["read:TeamsEsport"])]
+    #[ApiProperty(identifier: true)]
+
     #[ORM\Column(type: 'string', length: 255)]
+
     /**
      * @Gedmo\Slug(fields={"name"})
      */
-    private $slug;
 
+    private $slug;
+    #[Groups(["read:TeamsEsport"])]
     #[ORM\Column(type: 'datetime')]
     private $createdAt;
+    #[ORM\Column(type: 'string', length: 255)]
+    private $token;
     public function __construct()
     {
         $this->createdAt = new \DateTime();
-
-
+        $this->token = Uuid::uuid4();
     }
 
     public function getId(): ?int
@@ -88,6 +104,18 @@ class TeamsEsport
     {
 
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(string $token): self
+    {
+        $this->token = $token;
 
         return $this;
     }

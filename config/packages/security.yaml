@@ -49,7 +49,6 @@ security:
         - { path: ^/api/users, roles: IS_AUTHENTICATED_FULLY, methods : [PUT,PATCH,DELETE] }
         #- { path: ^/api/teams_esports, roles: IS_AUTHENTICATED_FULLY,methods : [GET,PUT,PATCH,DELETE,POST] }
         # - { path: ^/profile, roles: ROLE_USER }
-
 when@test:
     security:
         password_hashers:
