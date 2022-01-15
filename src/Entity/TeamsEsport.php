@@ -7,6 +7,8 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\TeamsEsportRepository;
+use DateTime;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -22,7 +24,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
     ],
     "post" => [
-
+        "security" => 'is_granted("ROLE_ADMIN")',
     ],
 ],
     itemOperations: [
@@ -37,6 +39,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
     ],
     "patch" => [
         "security" => 'is_granted("EDIT_TEAM",object)',
+
     ],
 ],
     denormalizationContext: ["groups" => ["write:TeamsEsport"]],
@@ -80,7 +83,7 @@ class TeamsEsport
     private $token;
     public function __construct()
     {
-        $this->createdAt = new \DateTime();
+        $this->createdAt = new DateTime();
         $this->token = Uuid::uuid4();
     }
 
@@ -125,12 +128,12 @@ class TeamsEsport
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(DateTimeInterface $createdAt): self
     {
 
         $this->createdAt = $createdAt;
