@@ -3,12 +3,10 @@ namespace App\Events;
 
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Paginator;
 use ApiPlatform\Core\EventListener\EventPriorities;
-use App\Entity\TeamsEsport;
 use App\Entity\User;
 use App\Entity\VerifMail;
 use App\Services\Mail\MailService;
 use Doctrine\ORM\EntityManagerInterface;
-
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,9 +35,6 @@ final class UserMailSubscriber implements EventSubscriberInterface
     public function sendMail(ViewEvent $event): void
     {
         $user = $event->getControllerResult();
-
-
-
 
         $method = $event->getRequest()->getMethod();
 

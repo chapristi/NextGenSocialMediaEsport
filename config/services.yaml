@@ -46,4 +46,6 @@ services:
         decorates: 'api_platform.openapi.factory'
         arguments: [ '@.inner' ]
 
+    
+
 

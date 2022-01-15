@@ -2,8 +2,10 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\TeamsEsportRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
@@ -12,10 +14,38 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Gedmo\Mapping\Annotation as Gedmo;
 #[ORM\Entity(repositoryClass: TeamsEsportRepository::class)]
+#[ApiFilter(SearchFilter::class, properties: ['name' => 'partial'])]
+
 #[ApiResource(
+    collectionOperations: [
+    "get" => [
+
+    ],
+    "post" => [
+
+    ],
+],
+    itemOperations: [
+    "get" => [
+
+    ],
+    "put" => [
+        "security" => 'is_granted("EDIT_TEAM",object)',
+    ],
+    "delete" => [
+        "security" => 'is_granted("EDIT_TEAM",object)',
+    ],
+    "patch" => [
+        "security" => 'is_granted("EDIT_TEAM",object)',
+    ],
+],
     denormalizationContext: ["groups" => ["write:TeamsEsport"]],
     #mercure: true,
     normalizationContext: ["groups" => ["read:TeamsEsport"]],
+    paginationClientItemsPerPage: true,
+    paginationItemsPerPage: 10,
+    //le client peut donc choisir le nombre d'item par page
+    paginationMaximumItemsPerPage: 10,
 )]
 class TeamsEsport
 {

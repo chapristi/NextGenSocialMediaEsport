@@ -6,7 +6,7 @@ namespace App\Voter;
 
 use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\The;
+
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Security;
 
@@ -31,6 +31,7 @@ final class UserVoter extends Voter
         if ($this->security->isGranted('ROLE_ADMIN') || $subject -> getId() === $user -> getId()) {
             return true;
         }
+        return false;
 
     }
 }
