@@ -106,6 +106,12 @@
       <path value="$PROJECT_DIR$/vendor/stof/doctrine-extensions-bundle" />
       <path value="$PROJECT_DIR$/vendor/behat/transliterator" />
       <path value="$PROJECT_DIR$/vendor/gedmo/doctrine-extensions" />
+      <path value="$PROJECT_DIR$/vendor/easycorp/easyadmin-bundle" />
+      <path value="$PROJECT_DIR$/vendor/symfony/translation" />
+      <path value="$PROJECT_DIR$/vendor/symfony/options-resolver" />
+      <path value="$PROJECT_DIR$/vendor/symfony/form" />
+      <path value="$PROJECT_DIR$/vendor/symfony/intl" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-intl-icu" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.0" />

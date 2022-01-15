@@ -12,4 +12,5 @@ return [
     Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle::class => ['all' => true],
     Symfony\Bundle\MercureBundle\MercureBundle::class => ['all' => true],
     Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle::class => ['all' => true],
+    EasyCorp\Bundle\EasyAdminBundle\EasyAdminBundle::class => ['all' => true],
 ];
