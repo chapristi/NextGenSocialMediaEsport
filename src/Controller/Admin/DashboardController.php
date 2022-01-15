@@ -40,7 +40,10 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('ConnexionJwt');
+            ->setTitle('ConnexionJwt')
+            ->setFaviconPath("https://cdn-icons-png.flaticon.com/512/2206/2206368.png")
+            ;
+
     }
 
     public function configureMenuItems(): iterable
