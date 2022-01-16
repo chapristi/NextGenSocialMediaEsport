@@ -30,6 +30,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'controller' => AcceptSomeoneInTeam::class,
         'read' => false,
     ],
+    'kickSomeone' => [
+        'method' => 'POST',
+        'path' => '/user_join_teams/kick/{token}',
+        'controller' => KickSomeoneInTeam::class,
+        'read' => false,
+    ],
     "get" => [
 
     ],
