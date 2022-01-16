@@ -27,7 +27,7 @@ class UserJoinTeam
     private $role = [];
 
     #[ORM\Column(type: 'boolean')]
-    private $isValidated;
+    private $isValidated = 0;
 
     #[ORM\Column(type: 'datetime')]
     private $createdAt;
@@ -36,6 +36,7 @@ class UserJoinTeam
     {
         $this->user = new ArrayCollection();
         $this->team = new ArrayCollection();
+        $this->createdAt = new \DateTime();
     }
 
     public function getId(): ?int

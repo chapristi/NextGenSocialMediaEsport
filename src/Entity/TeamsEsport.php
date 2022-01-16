@@ -26,7 +26,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
     ],
     "post" => [
-        "security" => 'is_granted("ROLE_ADMIN")',
+
     ],
 ],
     itemOperations: [
