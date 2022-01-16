@@ -23,10 +23,9 @@ class KickSomeoneInTeam extends AbstractController
     private function JsonReturn(string $message,int $code):JsonResponse
     {
         return $this->json([
-            "infos" => $code,
+            "infos" => $message,
             "code" => $code
         ],$code);
-
     }
     public function __invoke($token):JsonResponse
     {
