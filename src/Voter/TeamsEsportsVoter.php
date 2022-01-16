@@ -6,6 +6,8 @@ namespace App\Voter;
 
 use App\Entity\TeamsEsport;
 use App\Entity\User;
+use App\Entity\UserJoinTeam;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Security;
@@ -14,7 +16,7 @@ final class TeamsEsportsVoter extends Voter
 {
 
     const EDIT = "EDIT_TEAM";
-    public function __construct(private Security $security){
+    public function __construct(private Security $security, private EntityManagerInterface $entityManager){
 
     }
     protected function supports(string $attribute, mixed $subject): bool
@@ -26,10 +28,18 @@ final class TeamsEsportsVoter extends Voter
     {
         $user = $token->getUser();
 
-        if (!$user instanceof  User || !$subject instanceof TeamsEsport){
+
+
+
+
+        $ujt = $this->entityManager->getRepository(UserJoinTeam::class)->findByExampleField($user,$subject);
+
+
+
+        if (!$user instanceof  User || !$subject instanceof TeamsEsport  ){
             return false;
         }
-        if ($this->security->isGranted('ROLE_ADMIN')) {
+        if (!empty($ujt[0]->getRole()[0]) && $ujt[0]->getRole()[0] === "ROLE_ADMIN"  ) {
             return true;
         }
         return false;

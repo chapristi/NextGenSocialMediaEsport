@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\TeamsEsport;
 use App\Entity\User;
+use App\Entity\UserJoinTeam;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -51,6 +52,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('User', 'fas fa-user', User::class);
         yield MenuItem::linkToCrud('TeamsEsport', "fab fa-steam", TeamsEsport::class);
+        yield MenuItem::linkToCrud('UserJoinTeam', "fab fa-steam", UserJoinTeam::class);
 
     }
 }

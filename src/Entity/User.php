@@ -105,10 +105,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: VerifMail::class)]
     private $verifMails;
 
+    #[ORM\ManyToMany(targetEntity: UserJoinTeam::class, mappedBy: 'user')]
+    private $userJoinTeams;
+
     public function __construct()
     {
         $this->code = Uuid::v4();
         $this->verifMails = new ArrayCollection();
+        $this->userJoinTeams = new ArrayCollection();
     }
     public function getId(): ?int
     {
@@ -229,6 +233,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             if ($verifMail->getUser() === $this) {
                 $verifMail->setUser(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserJoinTeam[]
+     */
+    public function getUserJoinTeams(): Collection
+    {
+        return $this->userJoinTeams;
+    }
+
+    public function addUserJoinTeam(UserJoinTeam $userJoinTeam): self
+    {
+        if (!$this->userJoinTeams->contains($userJoinTeam)) {
+            $this->userJoinTeams[] = $userJoinTeam;
+            $userJoinTeam->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserJoinTeam(UserJoinTeam $userJoinTeam): self
+    {
+        if ($this->userJoinTeams->removeElement($userJoinTeam)) {
+            $userJoinTeam->removeUser($this);
         }
 
         return $this;

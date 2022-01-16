@@ -9,6 +9,8 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\TeamsEsportRepository;
 use DateTime;
 use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -81,10 +83,14 @@ class TeamsEsport
     private $createdAt;
     #[ORM\Column(type: 'string', length: 255)]
     private $token;
+
+    #[ORM\ManyToMany(targetEntity: UserJoinTeam::class, mappedBy: 'team')]
+    private $userJoinTeams;
     public function __construct()
     {
         $this->createdAt = new DateTime();
         $this->token = Uuid::uuid4();
+        $this->userJoinTeams = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -149,6 +155,33 @@ class TeamsEsport
     public function setToken(string $token): self
     {
         $this->token = $token;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserJoinTeam[]
+     */
+    public function getUserJoinTeams(): Collection
+    {
+        return $this->userJoinTeams;
+    }
+
+    public function addUserJoinTeam(UserJoinTeam $userJoinTeam): self
+    {
+        if (!$this->userJoinTeams->contains($userJoinTeam)) {
+            $this->userJoinTeams[] = $userJoinTeam;
+            $userJoinTeam->addTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserJoinTeam(UserJoinTeam $userJoinTeam): self
+    {
+        if ($this->userJoinTeams->removeElement($userJoinTeam)) {
+            $userJoinTeam->removeTeam($this);
+        }
 
         return $this;
     }
