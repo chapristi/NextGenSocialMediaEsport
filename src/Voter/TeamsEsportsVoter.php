@@ -27,21 +27,15 @@ final class TeamsEsportsVoter extends Voter
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
-
-
-
-
-
         $ujt = $this->entityManager->getRepository(UserJoinTeam::class)->findByExampleField($user,$subject);
-
-
-
         if (!$user instanceof  User || !$subject instanceof TeamsEsport  ){
             return false;
         }
         if (!empty($ujt[0]->getRole()[0]) && $ujt[0]->getRole()[0] === "ROLE_ADMIN"  ) {
+
             return true;
         }
+
         return false;
     }
 }

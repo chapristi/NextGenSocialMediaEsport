@@ -2,41 +2,94 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\AcceptSomeoneInTeam;
 use App\Repository\UserJoinTeamRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UserJoinTeamRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    collectionOperations: [
+    "get" => [
+
+    ],
+    "post" => [
+
+    ],
+
+],
+    itemOperations: [
+    'acceptSomeone' => [
+        'method' => 'POST',
+        'path' => '/user_join_teams/accept/{token}',
+        'controller' => AcceptSomeoneInTeam::class,
+        'read' => false,
+    ],
+    "get" => [
+
+    ],
+    "put" => [
+
+    ],
+    "delete" => [
+
+    ],
+    "patch" => [
+
+    ],
+],
+    denormalizationContext: ["groups" => ["write:UserJointeam"]],
+    #mercure: true,
+    normalizationContext: ["groups" => ["read:UserJointeam"]],
+)]
+
 class UserJoinTeam
 {
+    #[ApiProperty(identifier: false)]
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(["read:UserJointeam",])]
+
     private $id;
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'userJoinTeams')]
+    #[Groups(["read:UserJointeam"])]
     private $user;
 
     #[ORM\ManyToMany(targetEntity: TeamsEsport::class, inversedBy: 'userJoinTeams')]
+    #[Groups(["read:UserJointeam","write:UserJointeam"])]
     private $team;
 
     #[ORM\Column(type: 'json')]
+    #[Groups(["read:UserJointeam",])]
     private $role = [];
 
     #[ORM\Column(type: 'boolean')]
+    #[Groups(["read:UserJointeam",])]
     private $isValidated = 0;
 
     #[ORM\Column(type: 'datetime')]
+    #[Groups(["read:UserJointeam",])]
     private $createdAt;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    #[ApiProperty(identifier: true)]
+
+    private $token;
 
     public function __construct()
     {
         $this->user = new ArrayCollection();
         $this->team = new ArrayCollection();
         $this->createdAt = new \DateTime();
+        $this->token = Uuid::uuid4();
     }
 
     public function getId(): ?int
@@ -124,6 +177,18 @@ class UserJoinTeam
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(string $token): self
+    {
+        $this->token = $token;
 
         return $this;
     }
