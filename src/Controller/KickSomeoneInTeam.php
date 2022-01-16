@@ -41,8 +41,6 @@ class KickSomeoneInTeam extends AbstractController
             $this->entityManager->remove($joinTeam);
             $this->entityManager->flush();
             return $this->JsonReturn("): the user has been kicked ",201);
-
-
         }else{
             return $this->JsonReturn("Unauthorized",403);
         }
