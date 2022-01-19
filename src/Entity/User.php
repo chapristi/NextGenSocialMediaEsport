@@ -89,6 +89,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private string $password;
 
     #[ORM\Column(type: 'boolean')]
+    //ne pas oublier de rajouter le group admin apres pour pouvoir modifier le champs (:
     #[Groups(["read:User","admin:Read:User"])]
 
     private bool $IsVerified = false ;
