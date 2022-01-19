@@ -33,11 +33,11 @@ class KickSomeoneInTeam extends AbstractController
             "token" => $token
         ]);
         $user = $this->getUser();
-        $ujt = $this->entityManager->getRepository(UserJoinTeam::class)->findByExampleField($user,$joinTeam);
+        $ujt = $this->entityManager->getRepository(UserJoinTeam::class)->findByExampleField($user,$joinTeam->getTeam());
         if (!$joinTeam){
             return $this->JsonReturn("token not valide",403);
         }
-        if (!empty($ujt[0]->getRole()[0]) && $ujt[0]->getRole()[0] === "ROLE_ADMIN" || $this->security->isGranted("ROLE_ADMIN")) {
+        if (!empty($ujt[0]) && $ujt[0]->getRole()[0] === "ROLE_ADMIN" || $this->security->isGranted("ROLE_ADMIN")) {
             $this->entityManager->remove($joinTeam);
             $this->entityManager->flush();
             return $this->JsonReturn("): the user has been kicked ",201);

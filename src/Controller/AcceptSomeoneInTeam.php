@@ -26,12 +26,22 @@ class AcceptSomeoneInTeam extends AbstractController
         $joinTeam = $this->entityManager->getRepository(UserJoinTeam::class)->findOneBy([
             "token" => $token
         ]);
+
+        if ($joinTeam->getIsValidated() === true){
+            return $this->JsonReturn("l'utilisateur semble deja etre vérifié ",403);
+
+        }
         $user = $this->getUser();
-        $ujt = $this->entityManager->getRepository(UserJoinTeam::class)->findByExampleField($user,$joinTeam);
+        $ujt = $this->entityManager->getRepository(UserJoinTeam::class)->findByExampleField($user,$joinTeam->getTeam());
         if (!$joinTeam){
             return $this->JsonReturn("token not valide",403);
         }
-        if (!empty($ujt[0]->getRole()[0]) && $ujt[0]->getRole()[0] === "ROLE_ADMIN" || $this->security->isGranted("ROLE_ADMIN")) {
+
+
+
+
+        if (!empty($ujt[0]) && $ujt[0]->getRole()[0] === "ROLE_ADMIN" || $this->security->isGranted("ROLE_ADMIN")) {
+
             $joinTeam->setIsValidated(1);
             $this->entityManager->persist($joinTeam);
             $this->entityManager->flush();

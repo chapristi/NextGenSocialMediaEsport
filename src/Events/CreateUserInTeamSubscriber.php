@@ -43,6 +43,7 @@ final class CreateUserInTeamSubscriber implements EventSubscriberInterface
                 ->setRole(["ROLE_ADMIN"])
                 ->addUser($this->security->getUser())
                 ->addTeam($team)
+                ->setIsValidated(1)
 
             ;
         $this -> entityManager -> persist($userJoinTeam);
