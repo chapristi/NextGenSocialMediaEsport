@@ -74,29 +74,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
-    #[Groups(["read:User", "write:User"])]
+    #[Groups(["read:User", "write:User","admin:Read:User"])]
     #[Email(null,"it's not a mail" )]
     private ?string $email;
 
     #[ORM\Column(type: 'json')]
-    #[Groups(["read:User"])]
+    #[Groups(["read:User",])]
     private array $roles = [];
 
     #[ORM\Column(type: 'string')]
-    #[Groups(["write:User"])]
+    #[Groups(["write:User","admin:Read:User"])]
     #[Length(min: 5, max: 150, minMessage: "Your password is too short", maxMessage: "your password is too long")]
 
     private string $password;
 
     #[ORM\Column(type: 'boolean')]
-    #[Groups(["read:User"])]
+    #[Groups(["read:User","admin:Read:User"])]
 
-    private bool $IsVerified = false;
+    private bool $IsVerified = false ;
 
 
 
     #[ORM\Column(type: 'text')]
-    #[Groups(["read:User"])]
+    #[Groups(["admin:Read:User"])]
 
     #[ApiProperty(identifier: true)]
 
@@ -110,6 +110,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
+
         $this->code = Uuid::v4();
         $this->verifMails = new ArrayCollection();
         $this->userJoinTeams = new ArrayCollection();
