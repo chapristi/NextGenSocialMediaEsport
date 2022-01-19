@@ -68,7 +68,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(["read:User"])]
+    #[Groups(["read:User","admin:Read:User"])]
 
 
     private ?int $id;
@@ -79,7 +79,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $email;
 
     #[ORM\Column(type: 'json')]
-    #[Groups(["read:User",])]
+    #[Groups(["read:User","admin:Read:User"])]
     private array $roles = [];
 
     #[ORM\Column(type: 'string')]
@@ -90,7 +90,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'boolean')]
     //ne pas oublier de rajouter le group admin apres pour pouvoir modifier le champs (:
-    #[Groups(["read:User","admin:Read:User"])]
+    #[Groups(["read:User","admin:Read:User","admin:Write:User"])]
 
     private bool $IsVerified = false ;
 
@@ -103,9 +103,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     private ?string $code ;
 
+
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: VerifMail::class)]
     private $verifMails;
 
+    // quand j'aurais reglé le prblm avec le token #[Groups(["admin:Read:User"])]
     #[ORM\ManyToMany(targetEntity: UserJoinTeam::class, mappedBy: 'user')]
     private $userJoinTeams;
 
