@@ -28,6 +28,8 @@ final class UserContextBuilder implements SerializerContextBuilderInterface
         if ($resourceClass === User::class && isset($context['groups']) && $this->authorizationChecker->isGranted('ROLE_ADMIN') && true === $normalization) {
             $context['groups'][] = 'admin:Read:User';
         }
+        //essayer de rajouter la condition pour le admin:Write:User
+        //ensuite je pourrais creer ContextBuilder pour les team pour quils puissent moddifer et voir des trucs en plus pk pas
 
 
         return $context;
