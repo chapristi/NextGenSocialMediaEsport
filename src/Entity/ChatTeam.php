@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ChatTeamRepository;
 use DateTime;
@@ -39,6 +40,7 @@ use Symfony\Component\Validator\Constraints\NotNull;
     ],
 ],
     denormalizationContext: ["groups" => ["write:ChatTeam"]],
+    mercure: true,
     #mercure: true,
     normalizationContext: ["groups" => ["read:ChatTeam"]],
     paginationClientItemsPerPage: true,
@@ -55,7 +57,8 @@ class ChatTeam
     private int $id;
     #[NotNull]
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'chatTeams')]
-    #[Groups(["read:ChatTeam"])]
+    #[Groups(["read:ChatTeam","write:ChatTeam"])]
+
 
     private ?User $user;
     #[NotNull]
