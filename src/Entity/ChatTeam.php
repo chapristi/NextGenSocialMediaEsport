@@ -4,33 +4,76 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ChatTeamRepository;
+use DateTime;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints\NotNull;
 
 #[ORM\Entity(repositoryClass: ChatTeamRepository::class)]
-#[ApiResource]
+
+
+#[ApiResource(
+    collectionOperations: [
+    "get" => [
+
+    ],
+    "post" => [
+
+    ],
+],
+    itemOperations: [
+    "get" => [
+
+    ],
+    "put" => [
+        "security" => 'is_granted("EDIT_TEAM_MESSAGE",object)',
+
+    ],
+    "delete" => [
+
+    ],
+    "patch" => [
+
+
+    ],
+],
+    denormalizationContext: ["groups" => ["write:ChatTeam"]],
+    #mercure: true,
+    normalizationContext: ["groups" => ["read:ChatTeam"]],
+    paginationClientItemsPerPage: true,
+    paginationItemsPerPage: 10,
+    //le client peut donc choisir le nombre d'item par page
+    paginationMaximumItemsPerPage: 10,
+)]
 class ChatTeam
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
 
-    private $id;
+    private int $id;
     #[NotNull]
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'chatTeams')]
-    private $user;
+    #[Groups(["read:ChatTeam"])]
+
+    private ?User $user;
     #[NotNull]
     #[ORM\ManyToOne(targetEntity: TeamsEsport::class, inversedBy: 'chatTeams')]
-    private $team;
+    #[Groups(["read:ChatTeam","write:ChatTeam"])]
+
+    private ?TeamsEsport $team;
 
     #[ORM\Column(type: 'text')]
-    private $message;
+    #[Groups(["read:ChatTeam","write:ChatTeam"])]
+    private ?string $message;
 
     #[ORM\Column(type: 'datetime')]
-    private $createdAt;
+    #[Groups(["read:ChatTeam"])]
+    private  $createdAt;
 
     public function __construct(){
-        $this->createdAt = new \DateTime();
+        $this->createdAt = new DateTime();
     }
 
     public function getId(): ?int
@@ -74,12 +117,12 @@ class ChatTeam
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 

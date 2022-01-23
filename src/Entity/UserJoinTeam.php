@@ -90,6 +90,8 @@ class UserJoinTeam
     //#[ApiProperty(identifier: true)]
     private $token;
 
+
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -97,6 +99,7 @@ class UserJoinTeam
         $this->createdAt = new \DateTime();
         $this->token = Uuid::uuid4();
     }
+
 
     public function getId(): ?int
     {

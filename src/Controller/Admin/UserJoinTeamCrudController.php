@@ -9,7 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use Symfony\Bundle\MakerBundle\Doctrine\RelationManyToMany;
+
 
 class UserJoinTeamCrudController extends AbstractCrudController
 {
@@ -26,12 +26,12 @@ class UserJoinTeamCrudController extends AbstractCrudController
             AssociationField::new('user'),
             yield AssociationField::new('user')
                 ->setFormTypeOptions([
-                    'by_reference' => "email",
+                    'by_reference' => true
                 ])
                 ->autocomplete(),
             yield AssociationField::new('team')
                 ->setFormTypeOptions([
-                    'by_reference' => false,
+                    'by_reference' => true,
                 ])
                 ->autocomplete(),
             yield ArrayField::new("role"),
