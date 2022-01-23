@@ -90,14 +90,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'boolean')]
     //ne pas oublier de rajouter le group admin apres pour pouvoir modifier le champs (:
-    #[Groups(["read:User","admin:Read:User","admin:Write:User"])]
+    #[Groups(["read:User","admin:Read:User","admin:Write:User","admin:Update:User"])]
 
     private bool $IsVerified = false ;
 
 
 
     #[ORM\Column(type: 'text')]
-    #[Groups(["admin:Read:User"])]
+    #[Groups(["admin:Read:User","admin:Write:User","admin:Update:User"])]
 
     #[ApiProperty(identifier: true)]
 
@@ -109,6 +109,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     // quand j'aurais reglé le prblm avec le token #[Groups(["admin:Read:User"])]
     #[ORM\ManyToMany(targetEntity: UserJoinTeam::class, mappedBy: 'user')]
+    #[Groups(["read:User","admin:Read:User"])]
     private $userJoinTeams;
 
     public function __construct()

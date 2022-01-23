@@ -10,14 +10,14 @@ use App\Entity\User;
 
 final class UserContextBuilder implements SerializerContextBuilderInterface
 {
-    private $decorated;
-    private $authorizationChecker;
 
-    public function __construct(SerializerContextBuilderInterface $decorated, AuthorizationCheckerInterface $authorizationChecker)
-    {
-        $this->decorated = $decorated;
-        $this->authorizationChecker = $authorizationChecker;
-    }
+
+    public function __construct
+    (
+        private SerializerContextBuilderInterface $decorated,
+        private AuthorizationCheckerInterface $authorizationChecker
+    )
+    {}
 
     public function createFromRequest(Request $request, bool $normalization, ?array $extractedAttributes = null): array
     {
@@ -31,7 +31,7 @@ final class UserContextBuilder implements SerializerContextBuilderInterface
 
             $context['groups'][] = 'admin:Read:User';
         }
-        if ($resourceClass === User::class && isset($context['groups']) && $this->authorizationChecker->isGranted('ROLE_ADMIN') && true === $normalization ) {
+        if ($resourceClass === User::class && isset($context['groups']) && $this->authorizationChecker->isGranted('ROLE_ADMIN') && true === $normalization && $request->getMethod() !== "GET" ) {
 
             $context['groups'][] = 'admin:Update:User';
         }

@@ -57,8 +57,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 class UserJoinTeam
 {
-    #[ApiProperty(identifier: false)]
-
+    //#[ApiProperty(identifier: false)]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
@@ -79,16 +78,16 @@ class UserJoinTeam
     private $role = [];
 
     #[ORM\Column(type: 'boolean')]
-    #[Groups(["read:UserJointeam",])]
+    #[Groups(["read:UserJointeam"])]
     private $isValidated = 0;
 
     #[ORM\Column(type: 'datetime')]
     #[Groups(["read:UserJointeam",])]
     private $createdAt;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    #[ApiProperty(identifier: true)]
 
+    #[ORM\Column(type: 'string', length: 255)]
+    //#[ApiProperty(identifier: true)]
     private $token;
 
     public function __construct()

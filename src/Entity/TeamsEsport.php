@@ -58,33 +58,32 @@ class TeamsEsport
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(["read:TeamsEsport"])]
+
 
     private $id;
-    #[Groups(["read:TeamsEsport","write:TeamsEsport"])]
+    #[Groups(["read:TeamsEsport","admin:Read:TeamsEsport","write:TeamsEsport"])]
     #[ORM\Column(type: 'string', length: 255)]
     private $name;
-    #[Groups(["read:TeamsEsport","write:TeamsEsport"])]
+    #[Groups(["read:TeamsEsport","admin:Read:TeamsEsport","write:TeamsEsport","admin:Write:TeamsEsport","admin:Update:TeamsEsport"])]
     #[ORM\Column(type: 'string', length: 255)]
     private $description;
 
-    #[Groups(["read:TeamsEsport"])]
+    #[Groups(["read:TeamsEsport","admin:Read:TeamsEsport","admin:Write:TeamsEsport","admin:Update:TeamsEsport"])]
     #[ApiProperty(identifier: true)]
 
     #[ORM\Column(type: 'string', length: 255)]
-
     /**
      * @Gedmo\Slug(fields={"name"})
      */
-
     private $slug;
-    #[Groups(["read:TeamsEsport"])]
+    #[Groups(["read:TeamsEsport","admin:Read:TeamsEsport","admin:Write:TeamsEsport","admin:Update:TeamsEsport"])]
     #[ORM\Column(type: 'datetime')]
     private $createdAt;
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(["admin:Read:TeamsEsport","admin:Write:TeamsEsport","admin:Update:TeamsEsport"])]
     private $token;
-
     #[ORM\ManyToMany(targetEntity: UserJoinTeam::class, mappedBy: 'team')]
+    #[Groups(["read:TeamsEsport","admin:Read:TeamsEsport"])]
     private $userJoinTeams;
     public function __construct()
     {

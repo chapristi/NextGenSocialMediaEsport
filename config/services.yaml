@@ -50,5 +50,10 @@ services:
         decorates: 'api_platform.serializer.context_builder'
         arguments: [ '@App\Serializer\UserContextBuilder.inner' ]
         autoconfigure: false
+    App\Serializer\TeamsEsportContextBuilder:
+        decorates: 'api_platform.serializer.context_builder'
+        arguments: [ '@App\Serializer\TeamsEsportContextBuilder.inner' ]
+        autoconfigure: false
+
 
 
