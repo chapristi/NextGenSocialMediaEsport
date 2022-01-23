@@ -20,7 +20,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
     ],
     "post" => [
-
+        //"security" => 'is_granted("ROLE_ADMIN")',
     ],
 
 ],
