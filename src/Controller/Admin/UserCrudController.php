@@ -22,11 +22,11 @@ class UserCrudController extends AbstractCrudController
     {
         return [
 
-            EmailField::new('email'),
-            BooleanField::new('isVerified'),
+            yield EmailField::new('email'),
+            yield BooleanField::new('isVerified'),
             //DateTimeField::new("createdAt"),
-            ArrayField::new("roles"),
-            TextField::new("code"),
+            yield ArrayField::new("roles"),
+            yield TextField::new("code"),
         ];
     }
 

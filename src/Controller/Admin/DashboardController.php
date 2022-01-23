@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\ChatTeam;
 use App\Entity\TeamsEsport;
 use App\Entity\User;
 use App\Entity\UserJoinTeam;
@@ -53,6 +54,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('User', 'fas fa-user', User::class);
         yield MenuItem::linkToCrud('TeamsEsport', "fab fa-steam", TeamsEsport::class);
         yield MenuItem::linkToCrud('UserJoinTeam', "fab fa-steam", UserJoinTeam::class);
+        yield MenuItem::linkToCrud('ChatTeam', "fab fa-steam", ChatTeam::class);
 
     }
 }

@@ -112,12 +112,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(["read:User","admin:Read:User"])]
     private $userJoinTeams;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: ChatTeam::class)]
+    private $chatTeams;
+
     public function __construct()
     {
 
         $this->code = Uuid::v4();
         $this->verifMails = new ArrayCollection();
         $this->userJoinTeams = new ArrayCollection();
+        $this->chatTeams = new ArrayCollection();
     }
     public function getId(): ?int
     {
@@ -265,6 +269,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->userJoinTeams->removeElement($userJoinTeam)) {
             $userJoinTeam->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ChatTeam[]
+     */
+    public function getChatTeams(): Collection
+    {
+        return $this->chatTeams;
+    }
+
+    public function addChatTeam(ChatTeam $chatTeam): self
+    {
+        if (!$this->chatTeams->contains($chatTeam)) {
+            $this->chatTeams[] = $chatTeam;
+            $chatTeam->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChatTeam(ChatTeam $chatTeam): self
+    {
+        if ($this->chatTeams->removeElement($chatTeam)) {
+            // set the owning side to null (unless already changed)
+            if ($chatTeam->getUser() === $this) {
+                $chatTeam->setUser(null);
+            }
         }
 
         return $this;

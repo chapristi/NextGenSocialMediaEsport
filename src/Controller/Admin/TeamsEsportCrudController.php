@@ -22,11 +22,11 @@ class TeamsEsportCrudController extends AbstractCrudController
     {
         return [
 
-            TextField::new(propertyName:'name'),
-            SlugField::new(propertyName: "slug")->setTargetFieldName(fieldName: "name"),
-            TextEditorField::new(propertyName:'description'),
-            DateTimeField::new(propertyName:"createdAt"),
-            TextField::new(propertyName:"token"),
+            yield TextField::new(propertyName:'name'),
+            yield SlugField::new(propertyName: "slug")->setTargetFieldName(fieldName: "name"),
+            yield TextEditorField::new(propertyName:'description'),
+            yield DateTimeField::new(propertyName:"createdAt"),
+            yield TextField::new(propertyName:"token"),
         ];
     }
 

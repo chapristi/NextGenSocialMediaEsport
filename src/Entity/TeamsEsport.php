@@ -85,11 +85,15 @@ class TeamsEsport
     #[ORM\ManyToMany(targetEntity: UserJoinTeam::class, mappedBy: 'team')]
     #[Groups(["read:TeamsEsport","admin:Read:TeamsEsport"])]
     private $userJoinTeams;
+
+    #[ORM\OneToMany(mappedBy: 'team', targetEntity: ChatTeam::class)]
+    private $chatTeams;
     public function __construct()
     {
         $this->createdAt = new DateTime();
         $this->token = Uuid::uuid4();
         $this->userJoinTeams = new ArrayCollection();
+        $this->chatTeams = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -180,6 +184,36 @@ class TeamsEsport
     {
         if ($this->userJoinTeams->removeElement($userJoinTeam)) {
             $userJoinTeam->removeTeam($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ChatTeam[]
+     */
+    public function getChatTeams(): Collection
+    {
+        return $this->chatTeams;
+    }
+
+    public function addChatTeam(ChatTeam $chatTeam): self
+    {
+        if (!$this->chatTeams->contains($chatTeam)) {
+            $this->chatTeams[] = $chatTeam;
+            $chatTeam->setTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChatTeam(ChatTeam $chatTeam): self
+    {
+        if ($this->chatTeams->removeElement($chatTeam)) {
+            // set the owning side to null (unless already changed)
+            if ($chatTeam->getTeam() === $this) {
+                $chatTeam->setTeam(null);
+            }
         }
 
         return $this;
