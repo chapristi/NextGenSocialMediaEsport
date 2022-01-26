@@ -115,6 +115,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: ChatTeam::class)]
     private $chatTeams;
 
+    #[ORM\Column(type: 'string', length: 255)]
+    private $refresh;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $refresh_token;
+
     public function __construct()
     {
 
@@ -300,6 +306,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $chatTeam->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRefresh(): ?string
+    {
+        return $this->refresh;
+    }
+
+    public function setRefresh(string $refresh): self
+    {
+        $this->refresh = $refresh;
+
+        return $this;
+    }
+
+    public function getRefreshToken(): ?string
+    {
+        return $this->refresh_token;
+    }
+
+    public function setRefreshToken(string $refresh_token): self
+    {
+        $this->refresh_token = $refresh_token;
 
         return $this;
     }

@@ -34,6 +34,13 @@ security:
             pattern: ^/api
             stateless: true
             jwt: ~
+        refresh:
+            pattern: ^/api/token/refresh
+            stateless: true
+
+            #anonymous: false
+
+
 
         
                         
@@ -47,6 +54,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/api/users, roles: IS_AUTHENTICATED_FULLY, methods : [PUT,PATCH,DELETE] }
+        - { path: ^/api/token/refresh, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         #- { path: ^/api/teams_esports, roles: IS_AUTHENTICATED_FULLY,methods : [GET,PUT,PATCH,DELETE,POST] }
         # - { path: ^/profile, roles: ROLE_USER }
 when@test:
