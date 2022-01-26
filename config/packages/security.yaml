@@ -29,14 +29,12 @@ security:
                 password_path: password
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
-
-        api:
-            pattern: ^/api
-            stateless: true
-            jwt: ~
-        refresh:
+        api_token_refresh:
             pattern: ^/api/token/refresh
             stateless: true
+            refresh_jwt: ~
+
+
 
             #anonymous: false
 
@@ -54,7 +52,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/api/users, roles: IS_AUTHENTICATED_FULLY, methods : [PUT,PATCH,DELETE] }
-        - { path: ^/api/token/refresh, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        #- { path: ^/api/token/refresh, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         #- { path: ^/api/teams_esports, roles: IS_AUTHENTICATED_FULLY,methods : [GET,PUT,PATCH,DELETE,POST] }
         # - { path: ^/profile, roles: ROLE_USER }
 when@test:
