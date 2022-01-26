@@ -19,7 +19,6 @@ final class JwtDecorator implements OpenApiFactoryInterface
     {
         $openApi = ($this->decorated)($context);
         $schemas = $openApi->getComponents()->getSchemas();
-
         $schemas['Token'] = new \ArrayObject([
             'type' => 'object',
             'properties' => [

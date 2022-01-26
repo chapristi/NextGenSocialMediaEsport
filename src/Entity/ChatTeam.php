@@ -40,7 +40,7 @@ use Symfony\Component\Validator\Constraints\NotNull;
     ],
 ],
     denormalizationContext: ["groups" => ["write:ChatTeam"]],
-    mercure: true,
+
     #mercure: true,
     normalizationContext: ["groups" => ["read:ChatTeam"]],
     paginationClientItemsPerPage: true,
@@ -53,26 +53,27 @@ class ChatTeam
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(["admin:Read:ChatTeam"])]
 
     private int $id;
     #[NotNull]
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'chatTeams')]
-    #[Groups(["read:ChatTeam","write:ChatTeam"])]
+    #[Groups(["read:ChatTeam","admin:Read:ChatTeam","write:ChatTeam","admin:Update:ChatTeam","admin:Write:ChatTeam"])]
 
 
     private ?User $user;
     #[NotNull]
     #[ORM\ManyToOne(targetEntity: TeamsEsport::class, inversedBy: 'chatTeams')]
-    #[Groups(["read:ChatTeam","write:ChatTeam"])]
+    #[Groups(["read:ChatTeam","admin:Read:ChatTeam","write:ChatTeam","admin:Update:ChatTeam","admin:Write:ChatTeam"])]
 
     private ?TeamsEsport $team;
 
     #[ORM\Column(type: 'text')]
-    #[Groups(["read:ChatTeam","write:ChatTeam"])]
+    #[Groups(["read:ChatTeam","admin:Read:ChatTeam","write:ChatTeam","admin:Update:ChatTeam","admin:Write:ChatTeam"])]
     private ?string $message;
 
     #[ORM\Column(type: 'datetime')]
-    #[Groups(["read:ChatTeam"])]
+    #[Groups(["read:ChatTeam","admin:Read:ChatTeam","admin:Update:ChatTeam","admin:Write:ChatTeam"])]
     private  $createdAt;
 
     public function __construct(){

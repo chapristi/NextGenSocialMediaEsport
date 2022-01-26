@@ -33,9 +33,6 @@ security:
             pattern: ^/api/token/refresh
             stateless: true
             refresh_jwt: ~
-
-
-
             #anonymous: false
 
 
