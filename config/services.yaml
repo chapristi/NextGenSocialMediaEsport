@@ -47,6 +47,7 @@ services:
         arguments: [ '@.inner' ]
 
 
+
     App\Serializer\UserContextBuilder:
         decorates: 'api_platform.serializer.context_builder'
         arguments: [ '@App\Serializer\UserContextBuilder.inner' ]
@@ -55,6 +56,10 @@ services:
         decorates: 'api_platform.serializer.context_builder'
         arguments: [ '@App\Serializer\TeamsEsportContextBuilder.inner' ]
         autoconfigure: false
+    App\Doctrine\FilterMessageExtension:
+        tags:
+            - { name: api_platform.doctrine.orm.query_extension.collection }
+            - { name: api_platform.doctrine.orm.query_extension.item }
 
 
 

@@ -29,11 +29,17 @@ security:
                 password_path: password
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
+        api:
+            pattern: ^/api
+            stateless: true
+            jwt: ~
         api_token_refresh:
             pattern: ^/api/token/refresh
             stateless: true
             refresh_jwt: ~
+
             #anonymous: false
+
 
 
 
