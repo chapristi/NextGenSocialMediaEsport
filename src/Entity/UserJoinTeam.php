@@ -85,7 +85,7 @@ class UserJoinTeam
     #[Groups(["read:UserJointeam",])]
     private $createdAt;
 
-
+    #[Groups(["read:UserJointeam",])]
     #[ORM\Column(type: 'string', length: 255)]
     //#[ApiProperty(identifier: true)]
     private $token;

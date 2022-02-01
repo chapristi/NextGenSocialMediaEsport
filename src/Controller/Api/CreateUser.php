@@ -16,7 +16,7 @@ class CreateUser extends AbstractController
     }
     public function __invoke (User $data): array
     {
-        $this -> userManager ->registerAccount($data);
+        $this->userManager->registerAccount($data);
         return [
             [
                 "message" => "succé"

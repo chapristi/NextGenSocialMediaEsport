@@ -17,7 +17,7 @@ use Symfony\Component\Security\Core\Security;
 
 class FilterMessageExtension implements QueryCollectionExtensionInterface,QueryItemExtensionInterface
 {
-    public function __construct(private Security $security)
+    public function __construct(private Security $security,private EntityManagerInterface $entityManager)
     {
 
     }
@@ -35,29 +35,20 @@ class FilterMessageExtension implements QueryCollectionExtensionInterface,QueryI
     }
     private function addWhere(QueryBuilder $queryBuilder, string $resourceClass): void
     {
-        if (ChatTeam::class !== $resourceClass   || $this->security->isGranted("ROLE_ADMIN")) {
-           return;
-        }
+        //if (ChatTeam::class !== $resourceClass   || $this->security->isGranted("ROLE_ADMIN")) {
+          // return;
+       // }
 
 
 
+        //$query = $this->entityManager->createQuery('SELECT * FROM chat_team INNER JOIN user_join_team ON chat_teams.user_id = user_join_team.user_id ');
+        //$queryBuilder->andWhere("$rootAlias.user = :current_user OR $rootAlias.team. = :test");
+        //$queryBuilder->setParameter('current_user', $this->security->getUser()->getId());
 
-        $rootAlias = $queryBuilder->getRootAliases()[0];
-        $queryBuilder->andWhere("$rootAlias.user = :current_user");
-        $queryBuilder->setParameter('current_user', $this->security->getUser()->getId());
-        //test
-        $queryBuilder->from(UserJoinTeam::class,"u")
-            ->join('u.user', 'uu')
-            ->join('u.team', 't')
+        //dd($query);
+        return;
 
 
-            ->andWhere('uu = :user AND t = :team')
-            ->setParameters([
-                "user" => $this->security->getUser(),
-                "team" => "$rootAlias.team",
-            ])
-
-        ;
 
 
     }

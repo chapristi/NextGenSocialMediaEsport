@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiProperty;
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\ChatTeamRepository;
 use DateTime;
 use DateTimeInterface;
@@ -20,7 +21,7 @@ use Symfony\Component\Validator\Constraints\NotNull;
 
     ],
     "post" => [
-
+        "security" => 'is_granted("ROLE_USER")'
     ],
 ],
     itemOperations: [
@@ -39,15 +40,16 @@ use Symfony\Component\Validator\Constraints\NotNull;
 
     ],
 ],
-    denormalizationContext: ["groups" => ["write:ChatTeam"]],
-
     #mercure: true,
+    denormalizationContext: ["groups" => ["write:ChatTeam"]],
     normalizationContext: ["groups" => ["read:ChatTeam"]],
     paginationClientItemsPerPage: true,
-    paginationItemsPerPage: 10,
     //le client peut donc choisir le nombre d'item par page
-    paginationMaximumItemsPerPage: 10,
+    paginationItemsPerPage: 10,
+    paginationMaximumItemsPerPage: 10
 )]
+#[ApiFilter(SearchFilter::class, properties: ['team.name' => 'exact'])]
+
 class ChatTeam
 {
     #[ORM\Id]
@@ -64,7 +66,7 @@ class ChatTeam
     private ?User $user;
     #[NotNull]
     #[ORM\ManyToOne(targetEntity: TeamsEsport::class, inversedBy: 'chatTeams')]
-    #[Groups(["read:ChatTeam","admin:Read:ChatTeam","write:ChatTeam","admin:Update:ChatTeam","admin:Write:ChatTeam"])]
+    #[Groups(["read:ChatTeam","admin:Read:ChatTeam","admin:Update:ChatTeam","admin:Write:ChatTeam"])]
 
     private ?TeamsEsport $team;
 

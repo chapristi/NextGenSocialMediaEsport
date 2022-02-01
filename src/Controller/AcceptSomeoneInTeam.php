@@ -27,7 +27,7 @@ class AcceptSomeoneInTeam extends AbstractController
             "token" => $token
         ]);
 
-        if ($joinTeam->getIsValidated() === true){
+        if ($joinTeam->getIsValidated() === true ){
             return $this->JsonReturn("l'utilisateur semble deja etre vérifié ",403);
 
         }
