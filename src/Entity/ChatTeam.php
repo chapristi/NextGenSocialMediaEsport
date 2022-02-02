@@ -40,7 +40,7 @@ use Symfony\Component\Validator\Constraints\NotNull;
 
     ],
 ],
-    #mercure: true,
+
     denormalizationContext: ["groups" => ["write:ChatTeam"]],
     normalizationContext: ["groups" => ["read:ChatTeam"]],
     paginationClientItemsPerPage: true,

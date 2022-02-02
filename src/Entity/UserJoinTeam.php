@@ -67,11 +67,11 @@ class UserJoinTeam
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'userJoinTeams')]
     #[Groups(["read:UserJointeam"])]
-    private ArrayCollection $user;
+    private  $user;
 
     #[ORM\ManyToMany(targetEntity: TeamsEsport::class, inversedBy: 'userJoinTeams')]
     #[Groups(["read:UserJointeam","write:UserJointeam"])]
-    private ArrayCollection $team;
+    private  $team;
 
     #[ORM\Column(type: 'json')]
     #[Groups(["read:UserJointeam",])]
