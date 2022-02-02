@@ -10,7 +10,7 @@ class JWTExpiredEvent
     {
 
         $response = $event->getResponse();
-        $response->setMessage('Your token is expired, please renew it.');
+        $response->setMessage('Your token is expired, please renew it...');
 
     }
 

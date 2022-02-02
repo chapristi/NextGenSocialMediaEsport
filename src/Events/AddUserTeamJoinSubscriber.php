@@ -7,7 +7,6 @@ namespace App\Events;
 use ApiPlatform\Core\EventListener\EventPriorities;
 
 use App\Entity\UserJoinTeam;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
@@ -23,7 +22,7 @@ final class AddUserTeamJoinSubscriber implements EventSubscriberInterface
 {
 
 
-    public function __construct( private EntityManagerInterface $entityManager,private Security $security){
+    public function __construct(private Security $security){
 
     }
     /**

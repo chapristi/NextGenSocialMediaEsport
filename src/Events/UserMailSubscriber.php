@@ -38,7 +38,7 @@ final class UserMailSubscriber implements EventSubscriberInterface
 
         $method = $event->getRequest()->getMethod();
 
-        if (!is_array($user)  || $user instanceof Paginator || !$user[0][0] instanceof User || Request::METHOD_POST !== $method) {
+        if (!is_array($user) || $user instanceof Paginator || !$user[0][0] instanceof User || Request::METHOD_POST !== $method) {
             return;
         }
         $token = Uuid::uuid4();
