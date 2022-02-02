@@ -33,7 +33,7 @@ use Symfony\Component\Validator\Constraints\NotNull;
 
     ],
     "delete" => [
-        "security" => 'is_granted("EDIT_TEAM_MESSAGE",object)'
+        "security" => 'is_granted("DELETE_TEAM_MESSAGE",object)'
     ],
     "patch" => [
         "security" => 'is_granted("EDIT_TEAM_MESSAGE",object)'

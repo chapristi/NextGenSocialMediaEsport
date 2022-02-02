@@ -16,6 +16,7 @@ final class ChatTeamVoter extends Voter
 {
 
     const EDIT = "EDIT_TEAM_MESSAGE";
+    const DELETE = "DELETE_TEAM_MESSAGE";
     public function __construct(private Security $security, private EntityManagerInterface $entityManager){
 
     }
@@ -28,10 +29,33 @@ final class ChatTeamVoter extends Voter
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
 
+
+
         $user = $token->getUser();
         if (!$user instanceof  User || !$subject instanceof ChatTeam){
             return false;
         }
+
+        switch ($attribute) {
+            case self::DELETE:
+                return $this->canDelete($subject,$user);
+            case self::EDIT:
+                return $this->canEdit($subject,$user);
+        }
+
+        throw new \LogicException('This code should not be reached!');
+
+    }
+    private  function canEdit(ChatTeam $subject,User $user)
+    {
+        if ($this->security->isGranted('ROLE_ADMIN') || $subject -> getId() === $user -> getId()) {
+
+            return true;
+        }
+        return false;
+    }
+    private function canDelete(ChatTeam $subject,User $user)
+    {
         $userJoinTeam = $this->entityManager->getRepository(UserJoinTeam::class)->findByExampleField(
             $this->security->getUser(),
             $subject -> getTeam()
@@ -40,7 +64,6 @@ final class ChatTeamVoter extends Voter
             return false;
         }
 
-        //par la suite rajouter la possibilité aux admin de la teamde delete...mais peut etre le faire dans un serializer
         if ($this->security->isGranted('ROLE_ADMIN') || $subject -> getId() === $user -> getId() || !empty($ujt[0]) && $ujt[0]->getRole()[0] === "ROLE_ADMIN") {
 
             return true;
