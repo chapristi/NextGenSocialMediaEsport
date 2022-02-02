@@ -87,12 +87,16 @@ class TeamsEsport
 
     #[ORM\OneToMany(mappedBy: 'team', targetEntity: ChatTeam::class)]
     private  $chatTeams;
+
+    #[ORM\OneToMany(mappedBy: 'teams', targetEntity: AskUserJoinTeam::class)]
+    private $askUserJoinTeams;
     public function __construct()
     {
         $this->createdAt = new DateTime();
         $this->token = Uuid::uuid4();
         $this->userJoinTeams = new ArrayCollection();
         $this->chatTeams = new ArrayCollection();
+        $this->askUserJoinTeams = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -212,6 +216,36 @@ class TeamsEsport
             // set the owning side to null (unless already changed)
             if ($chatTeam->getTeam() === $this) {
                 $chatTeam->setTeam(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|AskUserJoinTeam[]
+     */
+    public function getAskUserJoinTeams(): Collection
+    {
+        return $this->askUserJoinTeams;
+    }
+
+    public function addAskUserJoinTeam(AskUserJoinTeam $askUserJoinTeam): self
+    {
+        if (!$this->askUserJoinTeams->contains($askUserJoinTeam)) {
+            $this->askUserJoinTeams[] = $askUserJoinTeam;
+            $askUserJoinTeam->setTeams($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAskUserJoinTeam(AskUserJoinTeam $askUserJoinTeam): self
+    {
+        if ($this->askUserJoinTeams->removeElement($askUserJoinTeam)) {
+            // set the owning side to null (unless already changed)
+            if ($askUserJoinTeam->getTeams() === $this) {
+                $askUserJoinTeam->setTeams(null);
             }
         }
 

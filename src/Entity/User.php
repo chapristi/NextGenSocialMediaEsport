@@ -115,6 +115,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: ChatTeam::class)]
     private  $chatTeams;
 
+    #[ORM\OneToMany(mappedBy: 'UserAsked', targetEntity: AskUserJoinTeam::class)]
+    private $askUserJoinTeams;
+
 
 
     public function __construct()
@@ -124,6 +127,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->verifMails = new ArrayCollection();
         $this->userJoinTeams = new ArrayCollection();
         $this->chatTeams = new ArrayCollection();
+        $this->askUserJoinTeams = new ArrayCollection();
     }
     public function getId(): ?int
     {
@@ -326,6 +330,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setRefreshToken(string $refresh_token): self
     {
         $this->refresh_token = $refresh_token;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|AskUserJoinTeam[]
+     */
+    public function getAskUserJoinTeams(): Collection
+    {
+        return $this->askUserJoinTeams;
+    }
+
+    public function addAskUserJoinTeam(AskUserJoinTeam $askUserJoinTeam): self
+    {
+        if (!$this->askUserJoinTeams->contains($askUserJoinTeam)) {
+            $this->askUserJoinTeams[] = $askUserJoinTeam;
+            $askUserJoinTeam->setUserAsked($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAskUserJoinTeam(AskUserJoinTeam $askUserJoinTeam): self
+    {
+        if ($this->askUserJoinTeams->removeElement($askUserJoinTeam)) {
+            // set the owning side to null (unless already changed)
+            if ($askUserJoinTeam->getUserAsked() === $this) {
+                $askUserJoinTeam->setUserAsked(null);
+            }
+        }
 
         return $this;
     }
