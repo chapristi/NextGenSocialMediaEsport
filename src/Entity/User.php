@@ -105,21 +105,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: VerifMail::class)]
-    private $verifMails;
+    private ArrayCollection $verifMails;
 
     // quand j'aurais reglé le prblm avec le token #[Groups(["admin:Read:User"])]
     #[ORM\ManyToMany(targetEntity: UserJoinTeam::class, mappedBy: 'user')]
     #[Groups(["read:User","admin:Read:User"])]
-    private $userJoinTeams;
+    private ArrayCollection $userJoinTeams;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: ChatTeam::class)]
-    private $chatTeams;
+    private ArrayCollection $chatTeams;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $refresh;
+    private ?string $refresh;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $refresh_token;
+    private ?string $refresh_token;
 
     public function __construct()
     {

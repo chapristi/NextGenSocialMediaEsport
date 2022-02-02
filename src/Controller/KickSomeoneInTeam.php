@@ -5,6 +5,7 @@ namespace App\Controller;
 
 
 use App\Entity\UserJoinTeam;
+use App\Repository\UserJoinTeamRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -27,13 +28,13 @@ class KickSomeoneInTeam extends AbstractController
             "code" => $code
         ],$code);
     }
-    public function __invoke($token):JsonResponse
+    public function __invoke(string $token,UserJoinTeamRepository $joinTeamRepository):JsonResponse
     {
         $joinTeam = $this->entityManager->getRepository(UserJoinTeam::class)->findOneBy([
             "token" => $token
         ]);
         $user = $this->getUser();
-        $ujt = $this->entityManager->getRepository(UserJoinTeam::class)->findByExampleField($user,$joinTeam->getTeam());
+        $ujt = $joinTeamRepository->findByExampleField($user,$joinTeam->getTeam());
         if (!$joinTeam){
             return $this->JsonReturn("token not valide",403);
         }

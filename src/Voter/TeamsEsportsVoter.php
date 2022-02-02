@@ -7,6 +7,7 @@ namespace App\Voter;
 use App\Entity\TeamsEsport;
 use App\Entity\User;
 use App\Entity\UserJoinTeam;
+use App\Repository\UserJoinTeamRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -16,7 +17,7 @@ final class TeamsEsportsVoter extends Voter
 {
 
     const EDIT = "EDIT_TEAM";
-    public function __construct(private Security $security, private EntityManagerInterface $entityManager){
+    public function __construct(private Security $security, private EntityManagerInterface $entityManager,private UserJoinTeamRepository $joinTeamRepository){
 
     }
     protected function supports(string $attribute, mixed $subject): bool
@@ -27,7 +28,7 @@ final class TeamsEsportsVoter extends Voter
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
-        $ujt = $this->entityManager->getRepository(UserJoinTeam::class)->findByExampleField($user,$subject);
+        $ujt = $this->joinTeamRepository->findByExampleField($user,$subject);
         if (!$user instanceof  User || !$subject instanceof TeamsEsport  ){
             return false;
         }

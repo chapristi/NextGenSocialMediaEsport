@@ -6,7 +6,7 @@ namespace App\EventListener;
 
 class JWTExpiredEvent
 {
-    public function onJWTExpired(\Lexik\Bundle\JWTAuthenticationBundle\Event\JWTExpiredEvent $event)
+    public function onJWTExpired(\Lexik\Bundle\JWTAuthenticationBundle\Event\JWTExpiredEvent $event):void
     {
 
         $response = $event->getResponse();

@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class JWTNotFoundListener
 {
-    public function OnJWTNotFound(JWTNotFoundEvent $event)
+    public function OnJWTNotFound(JWTNotFoundEvent $event):void
     {
         $data = [
             'status'  => '403 Forbidden',

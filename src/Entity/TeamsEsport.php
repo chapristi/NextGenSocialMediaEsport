@@ -14,7 +14,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Gedmo\Mapping\Annotation as Gedmo;
 #[ORM\Entity(repositoryClass: TeamsEsportRepository::class)]
@@ -60,13 +59,13 @@ class TeamsEsport
     #[ORM\Column(type: 'integer')]
 
 
-    private $id;
+    private ?int $id;
     #[Groups(["read:TeamsEsport","admin:Read:TeamsEsport","write:TeamsEsport"])]
     #[ORM\Column(type: 'string', length: 255)]
-    private $name;
+    private ?string $name;
     #[Groups(["read:TeamsEsport","admin:Read:TeamsEsport","write:TeamsEsport","admin:Write:TeamsEsport","admin:Update:TeamsEsport"])]
     #[ORM\Column(type: 'string', length: 255)]
-    private $description;
+    private ?string $description;
 
     #[Groups(["read:TeamsEsport","admin:Read:TeamsEsport","admin:Write:TeamsEsport","admin:Update:TeamsEsport"])]
     #[ApiProperty(identifier: true)]
@@ -75,19 +74,19 @@ class TeamsEsport
     /**
      * @Gedmo\Slug(fields={"name"})
      */
-    private $slug;
+    private ?string $slug;
     #[Groups(["read:TeamsEsport","admin:Read:TeamsEsport","admin:Write:TeamsEsport","admin:Update:TeamsEsport"])]
     #[ORM\Column(type: 'datetime')]
     private $createdAt;
     #[ORM\Column(type: 'string', length: 255)]
     #[Groups(["admin:Read:TeamsEsport","admin:Write:TeamsEsport","admin:Update:TeamsEsport"])]
-    private $token;
+    private ?string $token;
     #[ORM\ManyToMany(targetEntity: UserJoinTeam::class, mappedBy: 'team')]
     #[Groups(["read:TeamsEsport","admin:Read:TeamsEsport"])]
-    private $userJoinTeams;
+    private  $userJoinTeams;
 
     #[ORM\OneToMany(mappedBy: 'team', targetEntity: ChatTeam::class)]
-    private $chatTeams;
+    private  $chatTeams;
     public function __construct()
     {
         $this->createdAt = new DateTime();

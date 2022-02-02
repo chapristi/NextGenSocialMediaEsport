@@ -57,7 +57,7 @@ class ChatTeam
     #[ORM\Column(type: 'integer')]
     #[Groups(["read:ChatTeam","admin:Read:ChatTeam"])]
 
-    private int $id;
+    private ?int $id;
     #[NotNull]
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'chatTeams')]
     #[Groups(["read:ChatTeam","admin:Read:ChatTeam","write:ChatTeam","admin:Update:ChatTeam","admin:Write:ChatTeam"])]

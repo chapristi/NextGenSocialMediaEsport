@@ -34,7 +34,7 @@ class UserJoinTeamRepository extends ServiceEntityRepository
                 "team" => $team,
             ])
             ->getQuery()
-            ->getResult()
+            ->getOneOrNullResult()
             ;
     }
 

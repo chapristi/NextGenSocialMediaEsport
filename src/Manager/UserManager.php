@@ -15,13 +15,12 @@ class UserManager{
         protected UserPasswordHasherInterface $passwordService
     )
     {}
+
     /**
-     * findEmail
-     *
-     * @param  mixed $email
+     * @param string $email
      * @return User|null
      */
-    public function findEmail(string $email):User|null
+    public function findEmail(string $email):?User
     {
         $user =  $this -> userRepository -> findBy(["email" => $email]);
         if($user){
@@ -29,19 +28,24 @@ class UserManager{
         }
         return null;
     }
-    public function registerAccount(User $user): User
+
+    /**
+     * @param User $user
+     * @return User|null
+     */
+    public function registerAccount(User $user):?User
     {
         if($this -> findEmail($user -> getEmail())){
             throw new  BadRequestException("cette adresse email existe déjà");
         }
-        $user->setEmail($user -> getEmail());
-        $password = $this -> passwordService -> hashPassword(
+        $user->setEmail($user->getEmail());
+        $password = $this->passwordService->hashPassword(
             $user,
-            $user -> getPassword(),
+            $user->getPassword(),
         );
-        $user -> setPassword($password);
-        $this -> em -> persist($user);
-        $this -> em -> flush();
+        $user->setPassword($password);
+        $this->em-> persist($user);
+        $this->em-> flush();
         return $user;
 
     }

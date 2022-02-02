@@ -3,24 +3,27 @@
 namespace App\Controller;
 
 use App\Entity\VerifMail;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 
 class CheckMailController extends AbstractController
 {
-    public function __construct(private  EntityManagerInterface $entityManager){
-
-    }
-    public function __invoke($token){
+    public function __construct
+    (
+        private  EntityManagerInterface $entityManager
+    )
+    {}
+    public function __invoke(string $token):?JsonResponse
+    {
            $checkMail = $this->entityManager->getRepository(VerifMail::class)->findOneBy(["token" => $token]);
            if (!$checkMail){
                throw new  BadRequestException("le token n'est pas valide");
             }
-            if (new \DateTime()>$checkMail->getCreatedAt()->modify('+ 2 hour')){
+            if (new DateTime() > $checkMail->getCreatedAt()->modify('+ 2 hour')){
                 throw new  BadRequestException("le token a expiré");
             }
            $user= $checkMail->getUser();
@@ -31,6 +34,6 @@ class CheckMailController extends AbstractController
            return $this->json([
                "infos" => "le compte {$user->getEmail()} est verifié",
                "code" => 200
-           ],200);
+           ]);
     }
 }

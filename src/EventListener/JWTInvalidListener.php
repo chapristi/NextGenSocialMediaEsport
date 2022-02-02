@@ -9,7 +9,7 @@ use Lexik\Bundle\JWTAuthenticationBundle\Response\JWTAuthenticationFailureRespon
 class JWTInvalidListener
 {
 
-    public function onJWTInvalid(JWTInvalidEvent $event)
+    public function onJWTInvalid(JWTInvalidEvent $event):void
     {
         $response = new JWTAuthenticationFailureResponse('Your token is invalid, please login again to get a new one', 403);
         $event->setResponse($response);

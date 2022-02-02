@@ -6,6 +6,7 @@ namespace App\Voter;
 use App\Entity\ChatTeam;
 use App\Entity\User;
 use App\Entity\UserJoinTeam;
+use App\Repository\UserJoinTeamRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -17,7 +18,7 @@ final class ChatTeamVoter extends Voter
 
     const EDIT = "EDIT_TEAM_MESSAGE";
     const DELETE = "DELETE_TEAM_MESSAGE";
-    public function __construct(private Security $security, private EntityManagerInterface $entityManager){
+    public function __construct(private Security $security, private EntityManagerInterface $entityManager,private UserJoinTeamRepository $joinTeamRepository){
 
     }
     protected function supports(string $attribute, mixed $subject): bool
@@ -51,11 +52,11 @@ final class ChatTeamVoter extends Voter
     }
     private function canDelete(ChatTeam $subject,User $user)
     {
-        $userJoinTeam = $this->entityManager->getRepository(UserJoinTeam::class)->findByExampleField(
+        $ujt = $this->joinTeamRepository->findByExampleField(
             $this->security->getUser(),
             $subject -> getTeam()
         );
-        if (!$userJoinTeam){
+        if (!$ujt){
             return false;
         }
 

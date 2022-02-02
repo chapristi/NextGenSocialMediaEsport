@@ -63,23 +63,23 @@ class UserJoinTeam
     #[ORM\Column(type: 'integer')]
     #[Groups(["read:UserJointeam",])]
 
-    private $id;
+    private ?int $id;
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'userJoinTeams')]
     #[Groups(["read:UserJointeam"])]
-    private $user;
+    private ArrayCollection $user;
 
     #[ORM\ManyToMany(targetEntity: TeamsEsport::class, inversedBy: 'userJoinTeams')]
     #[Groups(["read:UserJointeam","write:UserJointeam"])]
-    private $team;
+    private ArrayCollection $team;
 
     #[ORM\Column(type: 'json')]
     #[Groups(["read:UserJointeam",])]
-    private $role = [];
+    private array $role = [];
 
     #[ORM\Column(type: 'boolean')]
     #[Groups(["read:UserJointeam"])]
-    private $isValidated = 0;
+    private bool $isValidated = false;
 
     #[ORM\Column(type: 'datetime')]
     #[Groups(["read:UserJointeam",])]
@@ -88,7 +88,7 @@ class UserJoinTeam
     #[Groups(["read:UserJointeam",])]
     #[ORM\Column(type: 'string', length: 255)]
     //#[ApiProperty(identifier: true)]
-    private $token;
+    private string $token;
 
 
 
