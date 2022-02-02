@@ -45,7 +45,9 @@ services:
     App\OpenApi\JwtDecorator:
         decorates: 'api_platform.openapi.factory'
         arguments: [ '@.inner' ]
-
+    App\OpenApi\RefreshTokenDecorator:
+        decorates: 'api_platform.openapi.factory'
+        arguments: [ '@.inner' ]
 
 
     App\Serializer\UserContextBuilder:
