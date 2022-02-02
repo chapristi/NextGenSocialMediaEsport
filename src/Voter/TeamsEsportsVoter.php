@@ -36,7 +36,6 @@ final class TeamsEsportsVoter extends Voter
 
             return true;
         }
-
         return false;
     }
 }
