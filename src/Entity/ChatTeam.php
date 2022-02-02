@@ -33,10 +33,10 @@ use Symfony\Component\Validator\Constraints\NotNull;
 
     ],
     "delete" => [
-
+        "security" => 'is_granted("EDIT_TEAM_MESSAGE",object)'
     ],
     "patch" => [
-
+        "security" => 'is_granted("EDIT_TEAM_MESSAGE",object)'
 
     ],
 ],
@@ -48,14 +48,14 @@ use Symfony\Component\Validator\Constraints\NotNull;
     paginationItemsPerPage: 10,
     paginationMaximumItemsPerPage: 10
 )]
-#[ApiFilter(SearchFilter::class, properties: ['team.name' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['team.slug' => 'exact'])]
 
 class ChatTeam
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(["admin:Read:ChatTeam"])]
+    #[Groups(["read:ChatTeam","admin:Read:ChatTeam"])]
 
     private int $id;
     #[NotNull]
