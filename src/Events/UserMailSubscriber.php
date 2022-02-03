@@ -41,6 +41,7 @@ final class UserMailSubscriber implements EventSubscriberInterface
         if (!is_array($user) || $user instanceof Paginator || !$user[0][0] instanceof User || Request::METHOD_POST !== $method) {
             return;
         }
+
         $token = Uuid::uuid4();
 
         $verifMail = (new VerifMail())
@@ -48,10 +49,7 @@ final class UserMailSubscriber implements EventSubscriberInterface
             ->setToken($token);
         $this -> entityManager -> persist($verifMail);
         $this -> entityManager -> flush();
-        $this->mailService->sendMail(user_mail: "louis.0505@protonmail.com",subject: "Vous pouvez deshormez verifier votre compte",body: "MailTemplate/mailRegister.html.twig", params:[
+        $this->mailService->sendMail(user_mail: "louis.0505@protonmail.com",subject: "Vous pouvez deshormez verifier votre compte",code: $token);
 
-            "uuid" => $token
-
-        ]);
     }
 }

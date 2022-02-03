@@ -20,26 +20,27 @@ class MailService implements MailServiceInterface
 
     /**
      * @param string $user_mail
-     * @param string $body
      * @param string $subject
-     * @param array $params
-     * Possibility to send an email
+     * @param string $code
+     * @throws \SendGrid\Mail\TypeException
      */
-    public function sendMail(string $user_mail,  string $subject, string $body, array $params): void
+    public function sendMail(string $user_mail,  string $subject,string $code): void
     {
-        $email = (new TemplatedEmail())
-            ->from(new Address("chapristimailpro@gmail.com"))
-            ->to($user_mail)
-            ->subject($subject)
-            ->htmlTemplate($body)
-            ->context($params)
-        ;
+        $email = new \SendGrid\Mail\Mail();
+        $email->setFrom("chapristimailpro@gmail.com", "equipe esport");
+        $email->setSubject($subject);
+        $email->addTo($user_mail, $user_mail);
+        $email->addContent(
+            "text/html", "<strong><a href='${code}'>verif account</a></strong>"
+        );
+        $sendgrid = new \SendGrid("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");
         try {
-            $this->mailer->send($email);
-        } catch (TransportExceptionInterface $e) {
-            $this -> loggerInterface->error("Un problème est survenu lors de l'envoi d'email", [
-                'exception' => $e,
-            ]);
+            $response = $sendgrid->send($email);
+            //print $response->statusCode() . "\n";
+            //print_r($response->headers());
+            //print $response->body() . "\n";
+        } catch (\Exception $e) {
+            echo 'Caught exception: '. $e->getMessage() ."\n";
         }
     }
 
