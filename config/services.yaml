@@ -58,6 +58,14 @@ services:
         decorates: 'api_platform.serializer.context_builder'
         arguments: [ '@App\Serializer\TeamsEsportContextBuilder.inner' ]
         autoconfigure: false
+    App\Serializer\ChatTeamContextBuilder:
+        decorates: 'api_platform.serializer.context_builder'
+        arguments: [ '@App\Serializer\ChatTeamContextBuilder.inner' ]
+        autoconfigure: false
+    App\Serializer\AskUserJoinTeamContextBuilder:
+        decorates: 'api_platform.serializer.context_builder'
+        arguments: [ '@App\Serializer\AskUserJoinTeamContextBuilder.inner' ]
+        autoconfigure: false
     App\Doctrine\FilterMessageExtension:
         tags:
             - { name: api_platform.doctrine.orm.query_extension.collection }

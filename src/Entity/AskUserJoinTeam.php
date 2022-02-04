@@ -55,36 +55,36 @@ class AskUserJoinTeam
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(["read:AskUserJoinTeam"])]
+    #[Groups(["read:AskUserJoinTeam","admin:Read:AskUserJoinTeam"])]
     #[ApiProperty(identifier: false)]
 
     private ?int $id;
 
     #[ORM\ManyToOne(targetEntity: TeamsEsport::class, inversedBy: 'askUserJoinTeams')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(["read:AskUserJoinTeam","write:AskUserJoinTeam"])]
+    #[Groups(["read:AskUserJoinTeam","write:AskUserJoinTeam","admin:Read:AskUserJoinTeam","admin:Update:AskUserJoinTeam","admin:Write:AskUserJoinTeam"])]
     private ?TeamsEsport $teams;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'askUserJoinTeams')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(["read:AskUserJoinTeam","write:AskUserJoinTeam"])]
+    #[Groups(["read:AskUserJoinTeam","write:AskUserJoinTeam","admin:Read:AskUserJoinTeam","admin:Update:AskUserJoinTeam","admin:Write:AskUserJoinTeam"])]
     private ?User $UserAsked;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'askUserJoinTeams')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(["read:AskUserJoinTeam"])]
+    #[Groups(["read:AskUserJoinTeam","admin:Read:AskUserJoinTeam","admin:Update:AskUserJoinTeam","admin:Write:AskUserJoinTeam"])]
     private ?User $users;
 
     #[ORM\Column(type: 'boolean')]
-    #[Groups(["read:AskUserJoinTeam"])]
+    #[Groups(["read:AskUserJoinTeam","admin:Read:AskUserJoinTeam","admin:Update:AskUserJoinTeam","admin:Write:AskUserJoinTeam"])]
     private ?bool $isAccepted = false;
 
     #[ORM\Column(type: 'datetime')]
-    #[Groups(["read:AskUserJoinTeam"])]
+    #[Groups(["read:AskUserJoinTeam","admin:Read:AskUserJoinTeam","admin:Update:AskUserJoinTeam","admin:Write:AskUserJoinTeam"])]
     private $createdAt;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(["read:AskUserJoinTeam"])]
+    #[Groups(["read:AskUserJoinTeam","admin:Read:AskUserJoinTeam","admin:Update:AskUserJoinTeam","admin:Write:AskUserJoinTeam"])]
     #[ApiProperty(identifier: true)]
     private ?string $token;
 
