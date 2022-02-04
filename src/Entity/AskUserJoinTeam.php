@@ -2,39 +2,97 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\AcceptToJoinTeamController;
 use App\Repository\AskUserJoinTeamRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: AskUserJoinTeamRepository::class)]
-#[ApiResource()]
+#[ApiResource(
+    collectionOperations: [
+    "get" => [
+
+    ],
+    "post" => [
+        "security" => 'is_granted("POST_ASK_USER_JOIN_TEAM",object)',
+        "security_message" => "You can't POST because you have not the necessary rights",
+    ],
+    'accept' => [
+        'method' => 'POST',
+        'path' => '/ask_user_join_teams/accept/{token}',
+        'controller' => AcceptToJoinTeamController::class,
+        'read' => false,
+    ],
+
+],
+    itemOperations: [
+        "get" => [
+
+        ],
+        "put" => [
+            "security" => 'is_granted("ROLE_ADMIN")',
+            "security_message" => "You can't PUT this because you have not the necessary right",
+        ],
+        "delete" => [
+            "security" => 'is_granted("DELETE_ASK_USER_JOIN_TEAM",object)',
+            "security_message" => "You can't DELETE this because you have not the necessary right",
+        ],
+        "patch" => [
+            "security" => 'is_granted("ROLE_ADMIN")',
+            "security_message" => "You can't  PATCH this because you have not the necessary right",
+        ],
+
+    ], denormalizationContext: ["groups" => ["write:AskUserJoinTeam"]],
+    #mercure: true,
+    normalizationContext: ["groups" => ["read:AskUserJoinTeam"]],
+
+)]
 class AskUserJoinTeam
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(["read:AskUserJoinTeam"])]
+    #[ApiProperty(identifier: false)]
+
     private ?int $id;
 
     #[ORM\ManyToOne(targetEntity: TeamsEsport::class, inversedBy: 'askUserJoinTeams')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(["read:AskUserJoinTeam","write:AskUserJoinTeam"])]
     private ?TeamsEsport $teams;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'askUserJoinTeams')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(["read:AskUserJoinTeam","write:AskUserJoinTeam"])]
     private ?User $UserAsked;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'askUserJoinTeams')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(["read:AskUserJoinTeam"])]
     private ?User $users;
 
     #[ORM\Column(type: 'boolean')]
-    private ?bool $isAccepted;
+    #[Groups(["read:AskUserJoinTeam"])]
+    private ?bool $isAccepted = false;
 
     #[ORM\Column(type: 'datetime')]
+    #[Groups(["read:AskUserJoinTeam"])]
     private $createdAt;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(["read:AskUserJoinTeam"])]
+    #[ApiProperty(identifier: true)]
     private ?string $token;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+        $this->token = Uuid::uuid4();
+    }
 
     public function getId(): ?int
     {

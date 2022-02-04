@@ -21,10 +21,23 @@ final class ChatTeamVoter extends Voter
     public function __construct(private Security $security, private EntityManagerInterface $entityManager,private UserJoinTeamRepository $joinTeamRepository){
 
     }
+
+    /**
+     * @param string $attribute
+     * @param mixed $subject
+     * @return bool
+     */
     protected function supports(string $attribute, mixed $subject): bool
     {
         return $attribute === self::EDIT && $subject instanceof  ChatTeam;
     }
+
+    /**
+     * @param string $attribute
+     * @param mixed $subject
+     * @param TokenInterface $token
+     * @return bool
+     */
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
@@ -42,7 +55,13 @@ final class ChatTeamVoter extends Voter
         throw new \LogicException('This code should not be reached!');
 
     }
-    private  function canEdit(ChatTeam $subject,User $user)
+
+    /**
+     * @param ChatTeam $subject
+     * @param User $user
+     * @return bool
+     */
+    private  function canEdit(ChatTeam $subject, User $user)
     {
         if ($this->security->isGranted('ROLE_ADMIN') || $subject -> getId() === $user -> getId()) {
 
@@ -50,7 +69,13 @@ final class ChatTeamVoter extends Voter
         }
         return false;
     }
-    private function canDelete(ChatTeam $subject,User $user)
+
+    /**
+     * @param ChatTeam $subject
+     * @param User $user
+     * @return bool
+     */
+    private function canDelete(ChatTeam $subject, User $user)
     {
         $ujt = $this->joinTeamRepository->findByExampleField(
             $this->security->getUser(),

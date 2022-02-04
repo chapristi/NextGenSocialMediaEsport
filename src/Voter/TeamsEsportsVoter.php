@@ -32,7 +32,7 @@ final class TeamsEsportsVoter extends Voter
         if (!$user instanceof  User || !$subject instanceof TeamsEsport  ){
             return false;
         }
-        if (!empty($ujt[0]->getRole()[0]) && $ujt[0]->getRole()[0] === "ROLE_ADMIN"  ) {
+        if (!empty($ujt[0]->getRole()[0]) && $ujt[0]->getRole()[0] === "ROLE_ADMIN" || $this->security->isGranted('ROLE_ADMIN')  ) {
 
             return true;
         }

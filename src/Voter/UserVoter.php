@@ -17,11 +17,23 @@ final class UserVoter extends Voter
     public function __construct(private Security $security){
 
     }
+
+    /**
+     * @param string $attribute
+     * @param mixed $subject
+     * @return bool
+     */
     protected function supports(string $attribute, mixed $subject): bool
     {
         return $attribute === self::EDIT && $subject instanceof  User;
     }
 
+    /**
+     * @param string $attribute
+     * @param mixed $subject
+     * @param TokenInterface $token
+     * @return bool
+     */
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();

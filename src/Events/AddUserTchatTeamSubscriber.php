@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\Security;
  * @author  Chapristi <louis.0505@protonmail.com>
  *
  */
-final class AddUserTchatTeam implements EventSubscriberInterface
+final class AddUserTchatTeamSubscriber implements EventSubscriberInterface
 {
 
 
@@ -31,7 +31,7 @@ final class AddUserTchatTeam implements EventSubscriberInterface
     public static function getSubscribedEvents():array
     {
         return [
-            KernelEvents::VIEW => ['addUserInUserJoinTeam', EventPriorities::POST_WRITE],
+            KernelEvents::VIEW => ['addUserInUserJoinTeam', EventPriorities::PRE_WRITE],
         ];
     }
     public function  addUserInUserJoinTeam(ViewEvent $event)
