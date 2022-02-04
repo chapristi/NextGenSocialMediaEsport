@@ -35,12 +35,12 @@ class MailService implements MailServiceInterface
                 [
                     'From' => [
                         'Email' => "louis@chapristi.tech",
-                        'Name' => "dfgmdf,kgl;"
+                        'Name' => "chapristi"
                     ],
                     'To' => [
                         [
                             'Email' => "$user_mail",
-                            'Name' => "dfgmdf,kgl;"
+                            'Name' => "$user_mail"
                         ]
                     ],
                     'Subject' => "$subject",
