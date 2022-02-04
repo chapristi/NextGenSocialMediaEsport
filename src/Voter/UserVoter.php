@@ -32,6 +32,5 @@ final class UserVoter extends Voter
             return true;
         }
         return false;
-
     }
 }
