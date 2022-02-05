@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\AcceptFriendRequestController;
 use App\Repository\BFFRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -21,12 +22,20 @@ use Symfony\Component\Serializer\Annotation\Groups;
     "post" => [
         "security" => 'is_granted("ROLE_USER")',
     ],
+    'kickSomeone' => [
+        'method' => 'POST',
+        'path' => '/bff/accept/{token}',
+        'controller' => AcceptFriendRequestController::class,
+        'read' => false,
+    ],
+
 ],
     itemOperations: [
     "get" => [
 //mettre un obligation de se connecter
 
     ],
+
     "put" => [
         "security" => 'is_granted("ROLE_ADMIN")',
     ],
