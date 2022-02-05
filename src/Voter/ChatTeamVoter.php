@@ -29,7 +29,18 @@ final class ChatTeamVoter extends Voter
      */
     protected function supports(string $attribute, mixed $subject): bool
     {
-        return $attribute === self::EDIT && $subject instanceof  ChatTeam;
+        // if the attribute isn't one we support, return false
+        if (!in_array($attribute, [self::DELETE, self::EDIT])) {
+            return false;
+        }
+
+        // only vote on `Post` objects
+        if (!$subject instanceof ChatTeam) {
+            return false;
+        }
+
+        return true;
+
     }
 
     /**

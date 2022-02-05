@@ -118,6 +118,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'UserAsked', targetEntity: AskUserJoinTeam::class)]
     private $askUserJoinTeams;
 
+    #[ORM\OneToMany(mappedBy: 'sender', targetEntity: BFF::class)]
+    private $sender;
+
+    #[ORM\OneToMany(mappedBy: 'receiver', targetEntity: BFF::class)]
+    private $receiver;
+
+    #[ORM\OneToMany(mappedBy: 'writer', targetEntity: PrivateMessage::class)]
+    private $privateMessages;
+
 
 
     public function __construct()
@@ -128,6 +137,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->userJoinTeams = new ArrayCollection();
         $this->chatTeams = new ArrayCollection();
         $this->askUserJoinTeams = new ArrayCollection();
+        $this->sender = new ArrayCollection();
+        $this->receiver = new ArrayCollection();
+        $this->privateMessages = new ArrayCollection();
     }
     public function getId(): ?int
     {
@@ -358,6 +370,96 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($askUserJoinTeam->getUserAsked() === $this) {
                 $askUserJoinTeam->setUserAsked(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|BFF[]
+     */
+    public function getSender(): Collection
+    {
+        return $this->sender;
+    }
+
+    public function addSender(BFF $sender): self
+    {
+        if (!$this->sender->contains($sender)) {
+            $this->sender[] = $sender;
+            $sender->setSender($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSender(BFF $sender): self
+    {
+        if ($this->sender->removeElement($sender)) {
+            // set the owning side to null (unless already changed)
+            if ($sender->getSender() === $this) {
+                $sender->setSender(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|BFF[]
+     */
+    public function getReceiver(): Collection
+    {
+        return $this->receiver;
+    }
+
+    public function addReceiver(BFF $receiver): self
+    {
+        if (!$this->receiver->contains($receiver)) {
+            $this->receiver[] = $receiver;
+            $receiver->setReceiver($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReceiver(BFF $receiver): self
+    {
+        if ($this->receiver->removeElement($receiver)) {
+            // set the owning side to null (unless already changed)
+            if ($receiver->getReceiver() === $this) {
+                $receiver->setReceiver(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PrivateMessage[]
+     */
+    public function getPrivateMessages(): Collection
+    {
+        return $this->privateMessages;
+    }
+
+    public function addPrivateMessage(PrivateMessage $privateMessage): self
+    {
+        if (!$this->privateMessages->contains($privateMessage)) {
+            $this->privateMessages[] = $privateMessage;
+            $privateMessage->setWriter($this);
+        }
+
+        return $this;
+    }
+
+    public function removePrivateMessage(PrivateMessage $privateMessage): self
+    {
+        if ($this->privateMessages->removeElement($privateMessage)) {
+            // set the owning side to null (unless already changed)
+            if ($privateMessage->getWriter() === $this) {
+                $privateMessage->setWriter(null);
             }
         }
 

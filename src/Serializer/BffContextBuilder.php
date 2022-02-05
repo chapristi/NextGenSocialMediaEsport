@@ -7,11 +7,12 @@ namespace App\Serializer;
 use ApiPlatform\Core\Exception\RuntimeException;
 use ApiPlatform\Core\Serializer\SerializerContextBuilderInterface;
 use App\Entity\AskUserJoinTeam;
+use App\Entity\BFF;
 use App\Entity\ChatTeam;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-final class AskUserJoinTeamContextBuilder implements SerializerContextBuilderInterface
+final class  BffContextBuilder implements SerializerContextBuilderInterface
 {
 
     public function __construct
@@ -25,16 +26,16 @@ final class AskUserJoinTeamContextBuilder implements SerializerContextBuilderInt
     {
         $context = $this->decorated->createFromRequest($request, $normalization, $extractedAttributes);
         $resourceClass = $context['resource_class'] ?? null;
-        if ($resourceClass === AskUserJoinTeam::class && isset($context['groups']) && $this->authorizationChecker->isGranted('ROLE_ADMIN') && true === $normalization && $request->getMethod() === "GET") {
+        if ($resourceClass === BFF::class && isset($context['groups']) && $this->authorizationChecker->isGranted('ROLE_ADMIN') && true === $normalization && $request->getMethod() === "GET") {
 
-            $context['groups'][] = 'admin:Read:AskUserJoinTeam';
+            $context['groups'][] = 'admin:Read:BFF';
         }
-        if ($resourceClass === AskUserJoinTeam::class && isset($context['groups']) && $this->authorizationChecker->isGranted('ROLE_ADMIN') && true === $normalization && $request->getMethod() !== "GET" ) {
+        if ($resourceClass ===  BFF::class && isset($context['groups']) && $this->authorizationChecker->isGranted('ROLE_ADMIN') && true === $normalization && $request->getMethod() !== "GET" ) {
 
-            $context['groups'][] = 'admin:Update:AskUserJoinTeam';
+            $context['groups'][] = 'admin:Update:BFF';
         }
-        if ($resourceClass === AskUserJoinTeam::class && isset($context['groups']) && $this->authorizationChecker->isGranted('ROLE_ADMIN') && false === $normalization) {
-            $context['groups'][] = 'admin:Write:AskUserJoinTeam';
+        if ($resourceClass === BFF::class && isset($context['groups']) && $this->authorizationChecker->isGranted('ROLE_ADMIN') && false === $normalization) {
+            $context['groups'][] = 'admin:Write:BFF';
         }
         return $context;
 

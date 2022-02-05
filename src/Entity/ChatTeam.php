@@ -18,25 +18,34 @@ use Symfony\Component\Validator\Constraints\NotNull;
 #[ApiResource(
     collectionOperations: [
     "get" => [
+//mettre un obligation de se connecter
 
     ],
     "post" => [
-        "security" => 'is_granted("ROLE_USER")'
+        "security" => 'is_granted("ROLE_USER")',
+
     ],
 ],
     itemOperations: [
     "get" => [
+//mettre un obligation de se connecter
 
     ],
     "put" => [
         "security" => 'is_granted("EDIT_TEAM_MESSAGE",object)',
+        "security_message" => "You can't PUT because you have not the necessary rights",
 
     ],
     "delete" => [
-        "security" => 'is_granted("DELETE_TEAM_MESSAGE",object)'
+        "security" => 'is_granted("DELETE_TEAM_MESSAGE",object)',
+        "security_message" => "You can't DELETE because you have not the necessary rights",
+
     ],
     "patch" => [
-        "security" => 'is_granted("EDIT_TEAM_MESSAGE",object)'
+        "security" => 'is_granted("EDIT_TEAM_MESSAGE",object)',
+        "security_message" => "You can't PATCH because you have not the necessary rights",
+
+
 
     ],
 ],
@@ -48,7 +57,6 @@ use Symfony\Component\Validator\Constraints\NotNull;
     paginationItemsPerPage: 10,
     paginationMaximumItemsPerPage: 10
 )]
-#[ApiFilter(SearchFilter::class, properties: ['team.slug' => 'exact'])]
 
 class ChatTeam
 {
