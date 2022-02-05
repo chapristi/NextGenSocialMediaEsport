@@ -27,6 +27,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'path' => '/bff/accept/{token}',
         'controller' => AcceptFriendRequestController::class,
         'read' => false,
+        "security" => 'is_granted("ROLE_USER")',
     ],
 
 ],
