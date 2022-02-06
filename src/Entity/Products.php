@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ProductsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 
@@ -31,8 +33,12 @@ class Products
     #[ORM\Column(type: 'float')]
     private ?float $price;
 
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Basket::class)]
+    private $baskets;
+
     public function __construct(){
         $this->token = Uuid::uuid4();
+        $this->baskets = new ArrayCollection();
     }
     public function getId(): ?int
     {
@@ -95,6 +101,36 @@ class Products
     public function setPrice(float $price): self
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Basket[]
+     */
+    public function getBaskets(): Collection
+    {
+        return $this->baskets;
+    }
+
+    public function addBasket(Basket $basket): self
+    {
+        if (!$this->baskets->contains($basket)) {
+            $this->baskets[] = $basket;
+            $basket->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBasket(Basket $basket): self
+    {
+        if ($this->baskets->removeElement($basket)) {
+            // set the owning side to null (unless already changed)
+            if ($basket->getProduct() === $this) {
+                $basket->setProduct(null);
+            }
+        }
 
         return $this;
     }

@@ -127,6 +127,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'writer', targetEntity: PrivateMessage::class)]
     private $privateMessages;
 
+    #[ORM\OneToMany(mappedBy: 'buyer', targetEntity: Basket::class)]
+    private $baskets;
+
 
 
     public function __construct()
@@ -140,6 +143,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->sender = new ArrayCollection();
         $this->receiver = new ArrayCollection();
         $this->privateMessages = new ArrayCollection();
+        $this->baskets = new ArrayCollection();
     }
     public function getId(): ?int
     {
@@ -441,6 +445,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($privateMessage->getWriter() === $this) {
                 $privateMessage->setWriter(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Basket[]
+     */
+    public function getBaskets(): Collection
+    {
+        return $this->baskets;
+    }
+
+    public function addBasket(Basket $basket): self
+    {
+        if (!$this->baskets->contains($basket)) {
+            $this->baskets[] = $basket;
+            $basket->setBuyer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBasket(Basket $basket): self
+    {
+        if ($this->baskets->removeElement($basket)) {
+            // set the owning side to null (unless already changed)
+            if ($basket->getBuyer() === $this) {
+                $basket->setBuyer(null);
             }
         }
 
