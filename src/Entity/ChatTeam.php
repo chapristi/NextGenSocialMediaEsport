@@ -22,7 +22,7 @@ use Symfony\Component\Validator\Constraints\NotNull;
 
     ],
     "post" => [
-        "security" => 'is_granted("ROLE_USER")',
+        "security" => 'is_granted("POST_TEAM_MESSAGE",object)',
 
     ],
 ],
@@ -68,13 +68,13 @@ class ChatTeam
     private ?int $id;
     #[NotNull]
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'chatTeams')]
-    #[Groups(["read:ChatTeam","admin:Read:ChatTeam","write:ChatTeam","admin:Update:ChatTeam","admin:Write:ChatTeam"])]
+    #[Groups(["read:ChatTeam","admin:Read:ChatTeam","admin:Update:ChatTeam","admin:Write:ChatTeam"])]
 
 
     private ?User $user;
     #[NotNull]
     #[ORM\ManyToOne(targetEntity: TeamsEsport::class, inversedBy: 'chatTeams')]
-    #[Groups(["read:ChatTeam","admin:Read:ChatTeam","admin:Update:ChatTeam","admin:Write:ChatTeam"])]
+    #[Groups(["read:ChatTeam","admin:Read:ChatTeam","write:ChatTeam","admin:Update:ChatTeam","admin:Write:ChatTeam"])]
 
     private ?TeamsEsport $team;
 

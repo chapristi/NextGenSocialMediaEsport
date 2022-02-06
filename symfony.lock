@@ -231,6 +231,12 @@
     "nikic/php-parser": {
         "version": "v4.13.2"
     },
+    "paragonie/random_compat": {
+        "version": "v9.99.100"
+    },
+    "paragonie/sodium_compat": {
+        "version": "v1.17.0"
+    },
     "phar-io/manifest": {
         "version": "2.0.3"
     },
@@ -307,6 +313,15 @@
     },
     "psr/log": {
         "version": "3.0.0"
+    },
+    "pusher/pusher-php-server": {
+        "version": "7.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "3.0",
+            "ref": "8dd3ea817217453e14ab596317177465211e01d2"
+        }
     },
     "ralouphie/getallheaders": {
         "version": "3.0.3"

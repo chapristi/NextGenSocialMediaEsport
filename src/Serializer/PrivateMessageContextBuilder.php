@@ -10,7 +10,7 @@ use App\Entity\PrivateMessage;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-final class PrivateMessageSerializer implements SerializerContextBuilderInterface
+final class PrivateMessageContextBuilder implements SerializerContextBuilderInterface
 {
 
     public function __construct
