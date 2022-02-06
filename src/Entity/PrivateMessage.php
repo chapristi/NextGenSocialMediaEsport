@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\PrivateMessageRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PrivateMessageRepository::class)]
@@ -68,9 +69,13 @@ class PrivateMessage
     #[Groups(["read:PrivateMessage","admin:Read:PrivateMessage","admin:Update:PrivateMessage","admin:Write:PrivateMessage"])]
 
     private ?User $writer;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $token;
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+        $this->token = Uuid::uuid4();
     }
 
     public function getId(): ?int
@@ -122,6 +127,18 @@ class PrivateMessage
     public function setWriter(?User $writer): self
     {
         $this->writer = $writer;
+
+        return $this;
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(string $token): self
+    {
+        $this->token = $token;
 
         return $this;
     }

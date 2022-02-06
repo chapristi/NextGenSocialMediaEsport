@@ -9,6 +9,7 @@ use App\Repository\ChatTeamRepository;
 use DateTime;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints\NotNull;
 
@@ -86,8 +87,12 @@ class ChatTeam
     #[Groups(["read:ChatTeam","admin:Read:ChatTeam","admin:Update:ChatTeam","admin:Write:ChatTeam"])]
     private  $createdAt;
 
+    #[ORM\Column(type: 'string', length: 255)]
+    private $token;
+
     public function __construct(){
         $this->createdAt = new DateTime();
+        $this->token = Uuid::uuid4();
     }
 
     public function getId(): ?int
@@ -139,6 +144,18 @@ class ChatTeam
     public function setCreatedAt(DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(string $token): self
+    {
+        $this->token = $token;
 
         return $this;
     }

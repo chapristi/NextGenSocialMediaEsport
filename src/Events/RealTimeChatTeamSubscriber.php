@@ -26,14 +26,14 @@ final  class RealTimeChatTeamSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents():array
     {
         return [
-            KernelEvents::VIEW => ['addUserAskUserJoinTeamSubscriber', EventPriorities::POST_WRITE],
+            KernelEvents::VIEW => ['RealTimeChatTeamSubscriber', EventPriorities::POST_WRITE],
         ];
     }
 
     /**
      * @param ViewEvent $event
      */
-    public function addUserAskUserJoinTeamSubscriber(ViewEvent $event)
+    public function RealTimeChatTeamSubscriber(ViewEvent $event)
     {
         $chatTeam = $event->getControllerResult();
 
@@ -43,13 +43,13 @@ final  class RealTimeChatTeamSubscriber implements EventSubscriberInterface
         }
         switch ($method) {
             case Request::METHOD_POST:
-                $this->RequestToRealTimeChat($chatTeam->getMessage(), $chatTeam->getUser()->getCode(), $chatTeam->getCreatedAt(), "POST", $chatTeam->getTeam()->getSlug(), $chatTeam->getId());
+                $this->RequestToRealTimeChat($chatTeam->getMessage(), $chatTeam->getUser()->getCode(), $chatTeam->getCreatedAt(), "POST", $chatTeam->getTeam()->getSlug(), $chatTeam->getToken());
                 break;
             case Request::METHOD_PATCH || Request::METHOD_PUT:
-                $this->RequestToRealTimeChat($chatTeam->getMessage(), $chatTeam->getUser()->getCode(), $chatTeam->getCreatedAt(), "EDIT", $chatTeam->getTeam()->getSlug(), $chatTeam->getId());
+                $this->RequestToRealTimeChat($chatTeam->getMessage(), $chatTeam->getUser()->getCode(), $chatTeam->getCreatedAt(), "EDIT", $chatTeam->getTeam()->getSlug(), $chatTeam->getToken());
                 break;
             case Request::METHOD_DELETE:
-                $this->RequestToRealTimeChat("","","","DELETE",$chatTeam->getTeam()->getSlug(),$chatTeam->getId());
+                $this->RequestToRealTimeChat("","","","DELETE",$chatTeam->getTeam()->getSlug(),$chatTeam->getToken());
 
         }
     }
@@ -68,7 +68,7 @@ final  class RealTimeChatTeamSubscriber implements EventSubscriberInterface
 
             if ($satus === "POST" || $satus === "EDIT") {
                 $data['message'] = $message;
-                $data["user"] = $user;
+                $data["sender"] = $user;
                 $data["createdAt"] = $createdAt;
                 $data["status"] = $satus;
                 $data["idChat"] = $id;
