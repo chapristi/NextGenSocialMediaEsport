@@ -19,6 +19,13 @@ final class ChatTeamContextBuilder implements SerializerContextBuilderInterface
     )
     {}
 
+    /**
+     * @param Request $request
+     * @param bool $normalization
+     * @param array|null $extractedAttributes
+     * @return array
+     * give mor possibilities for admins to ChatTeam entity
+     */
     public function createFromRequest(Request $request, bool $normalization, array $extractedAttributes = null): array
     {
         $context = $this->decorated->createFromRequest($request, $normalization, $extractedAttributes);

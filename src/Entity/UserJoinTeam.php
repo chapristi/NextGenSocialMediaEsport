@@ -20,7 +20,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
     ],
     "post" => [
-        //"security" => 'is_granted("ROLE_ADMIN")',
+        "security" => 'is_granted("ROLE_USER")',
     ],
 
 ],
@@ -63,31 +63,40 @@ class UserJoinTeam
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(["read:UserJointeam",])]
+    #[Groups(["read:UserJointeam","admin:Read:UserJoinTeam"])]
 
     private ?int $id;
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'userJoinTeams')]
-    #[Groups(["read:UserJointeam"])]
+    #[Groups(["read:UserJointeam","admin:Read:UserJoinTeam","admin:Update:AskUserJoinTeam","admin:Write:AskUserJoinTeam"])]
+    #[ORM\JoinColumn(nullable: false)]
+
     private  $user;
 
     #[ORM\ManyToMany(targetEntity: TeamsEsport::class, inversedBy: 'userJoinTeams')]
-    #[Groups(["read:UserJointeam","write:UserJointeam"])]
+
+    #[Groups(["read:UserJointeam","write:UserJointeam","admin:Read:UserJoinTeam","admin:Update:AskUserJoinTeam","admin:Write:AskUserJoinTeam"])]
+    #[ORM\JoinColumn(nullable: false)]
+
     private  $team;
 
     #[ORM\Column(type: 'json')]
-    #[Groups(["read:UserJointeam",])]
+    #[Groups(["read:UserJointeam","admin:Read:UserJoinTeam","admin:Update:AskUserJoinTeam","admin:Write:AskUserJoinTeam"])]
+
     private array $role = [];
 
     #[ORM\Column(type: 'boolean')]
-    #[Groups(["read:UserJointeam"])]
+    #[Groups(["read:UserJointeam","admin:Read:UserJoinTeam","admin:Update:AskUserJoinTeam","admin:Write:AskUserJoinTeam"])]
+
     private bool $isValidated = false;
 
     #[ORM\Column(type: 'datetime')]
-    #[Groups(["read:UserJointeam",])]
+    #[Groups(["read:UserJointeam","admin:Read:UserJoinTeam","admin:Update:AskUserJoinTeam","admin:Write:AskUserJoinTeam"])]
+
     private $createdAt;
 
-    #[Groups(["read:UserJointeam",])]
+    #[Groups(["read:UserJointeam","admin:Read:UserJoinTeam","admin:Update:AskUserJoinTeam","admin:Write:AskUserJoinTeam"])]
+
     #[ORM\Column(type: 'string', length: 255)]
     //#[ApiProperty(identifier: true)]
     private string $token;

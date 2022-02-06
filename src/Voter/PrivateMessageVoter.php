@@ -12,37 +12,24 @@ use Symfony\Component\Security\Core\Security;
 
 final class PrivateMessageVoter extends Voter
 {
-    // these strings are just invented: you can use anything
     const POST = "POST_PRIVATE_MESSAGE";
     const EDIT = "EDIT_PRIVATE_MESSAGE" ;
 
-    public function __construct(
+    public function __construct
+    (
         private BFFRepository $BFFRepository,
         private Security $security,
-
     )
-    {
-
-    }
+    {}
 
     protected function supports(string $attribute, $subject): bool
     {
-        // if the attribute isn't one we support, return false
-
-
         if (!in_array($attribute, [self::POST, self::EDIT])) {
-
             return false;
         }
-
-
-
-
         if (!$subject instanceof PrivateMessage) {
-
             return false;
         }
-
         return true;
     }
 
@@ -51,13 +38,9 @@ final class PrivateMessageVoter extends Voter
         $user = $token->getUser();
 
         if (!$user instanceof User) {
-            // the user must be logged in; if not, deny access
+
             return false;
         }
-
-
-
-
         switch ($attribute) {
             case self::POST:
                 return $this->canPost($subject, $user);
@@ -71,24 +54,18 @@ final class PrivateMessageVoter extends Voter
     private function canPost(PrivateMessage $subject, User $user): bool
     {
         $bff = $this->BFFRepository->findOneBy(["token" => $subject->getBff()->getToken()]);
-
-
         if ($bff->getSender() === $user || $bff -> getReceiver() === $user && $bff->getIsAccepted() === true ||  $this->security->isGranted("ROLE_ADMIN"))
         {
             return true;
         }
         return false;
-
-
     }
 
     private function canEdit(PrivateMessage $subject, User $user): bool
     {
-        // this assumes that the Post object has a `getOwner()` method
         if ($subject->getWriter() === $user || $this->security->isGranted("ROLE_ADMIN")){
             return true;
         }
         return false;
-
     }
 }

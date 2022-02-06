@@ -21,12 +21,17 @@ final class TeamsEsportContextBuilder implements SerializerContextBuilderInterfa
     {}
 
 
+    /**
+     * @param Request $request
+     * @param bool $normalization
+     * @param array|null $extractedAttributes
+     * @return array
+     * give more possibilities to admin for TeamsEsport entity
+     */
     public function createFromRequest(Request $request, bool $normalization, array $extractedAttributes = null): array
     {
         $context = $this->decorated->createFromRequest($request, $normalization, $extractedAttributes);
         $resourceClass = $context['resource_class'] ?? null;
-
-
 
         if ($resourceClass === TeamsEsport::class && isset($context['groups']) && $this->authorizationChecker->isGranted('ROLE_ADMIN') && true === $normalization && $request->getMethod() === "GET") {
 
@@ -40,6 +45,5 @@ final class TeamsEsportContextBuilder implements SerializerContextBuilderInterfa
             $context['groups'][] = 'admin:Write:TeamsEsport';
         }
         return $context;
-
     }
 }

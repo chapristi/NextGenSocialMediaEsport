@@ -7,7 +7,7 @@ namespace App\Events;
 use ApiPlatform\Core\EventListener\EventPriorities;
 
 
-use App\Entity\ChatTeam;
+
 use App\Entity\PrivateMessage;
 use Pusher\Pusher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

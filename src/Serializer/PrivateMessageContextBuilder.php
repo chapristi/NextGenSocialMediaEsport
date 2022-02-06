@@ -21,6 +21,13 @@ final class PrivateMessageContextBuilder implements SerializerContextBuilderInte
     {}
 
 
+    /**
+     * @param Request $request
+     * @param bool $normalization
+     * @param array|null $extractedAttributes
+     * @return array
+     * give more possibilities to admin for PrivateMessage entity
+     */
     public function createFromRequest(Request $request, bool $normalization, array $extractedAttributes = null): array
     {
         $context = $this->decorated->createFromRequest($request, $normalization, $extractedAttributes);
