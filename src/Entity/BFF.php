@@ -17,7 +17,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     collectionOperations: [
     "get" => [
-//mettre un obligation de se connecter
+        "security" => 'is_granted("ROLE_USER")',
     ],
     "post" => [
         "security" => 'is_granted("ROLE_USER")',
@@ -33,7 +33,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 ],
     itemOperations: [
     "get" => [
-//mettre un obligation de se connecter
+        "security" => 'is_granted("ROLE_USER")',
 
     ],
 

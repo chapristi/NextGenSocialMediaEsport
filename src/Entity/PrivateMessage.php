@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
     collectionOperations: [
     "get" => [
-//mettre un obligation de se connecter
+        "security" => 'is_granted("ROLE_USER")',
 
     ],
     "post" => [
@@ -23,7 +23,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 ],
     itemOperations: [
     "get" => [
-//mettre un obligation de se connecter
+        "security" => 'is_granted("ROLE_USER")',
 
     ],
     "put" => [

@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints\NotNull;
 #[ApiResource(
     collectionOperations: [
     "get" => [
-//mettre un obligation de se connecter
+        "security" => 'is_granted("ROLE_USER")',
 
     ],
     "post" => [
@@ -28,7 +28,7 @@ use Symfony\Component\Validator\Constraints\NotNull;
 ],
     itemOperations: [
     "get" => [
-//mettre un obligation de se connecter
+        "security" => 'is_granted("ROLE_USER")',
 
     ],
     "put" => [
