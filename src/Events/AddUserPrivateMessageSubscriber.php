@@ -25,7 +25,7 @@ final  class AddUserPrivateMessageSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents():array
     {
         return [
-            KernelEvents::VIEW => ['AddUserPrivateMessageSubscriber', EventPriorities::PRE_WRITE],
+            KernelEvents::VIEW => ['AddUserPrivateMessageSubscriber', EventPriorities::PRE_VALIDATE],
         ];
     }
 

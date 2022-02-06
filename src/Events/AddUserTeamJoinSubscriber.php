@@ -31,7 +31,7 @@ final class AddUserTeamJoinSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents():array
     {
         return [
-            KernelEvents::VIEW => ['addUserInUserJoinTeam', EventPriorities::PRE_WRITE],
+            KernelEvents::VIEW => ['addUserInUserJoinTeam', EventPriorities::PRE_VALIDATE],
         ];
     }
     public function  addUserInUserJoinTeam(ViewEvent $event)

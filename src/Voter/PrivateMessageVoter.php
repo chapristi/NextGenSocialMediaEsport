@@ -1,6 +1,5 @@
 <?php
-
-
+// src/Security/PostVoter.php
 namespace App\Voter;
 
 
@@ -13,87 +12,83 @@ use Symfony\Component\Security\Core\Security;
 
 final class PrivateMessageVoter extends Voter
 {
-
-
+    // these strings are just invented: you can use anything
     const POST = "POST_PRIVATE_MESSAGE";
     const EDIT = "EDIT_PRIVATE_MESSAGE" ;
 
-    public function __construct(private Security $security,private  BFFRepository $BFFRepository){
+    public function __construct(
+        private BFFRepository $BFFRepository,
+        private Security $security,
+
+    )
+    {
 
     }
 
-
-    /**
-     * @param string $attribute
-     * @param mixed $subject
-     * @return bool
-     */
-    protected function supports(string $attribute, mixed $subject): bool
+    protected function supports(string $attribute, $subject): bool
     {
         // if the attribute isn't one we support, return false
+
+
         if (!in_array($attribute, [self::POST, self::EDIT])) {
+
             return false;
         }
 
-        // only vote on `Post` objects
+
+
+
         if (!$subject instanceof PrivateMessage) {
+
             return false;
         }
 
         return true;
     }
 
-    /**
-     * @param string $attribute
-     * @param mixed $subject
-     * @param TokenInterface $token
-     * @return bool
-     */
-    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
+    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
-        if (!$user instanceof  User|| !$subject instanceof PrivateMessage  ){
+
+        if (!$user instanceof User) {
+            // the user must be logged in; if not, deny access
             return false;
         }
+
+
+
+
         switch ($attribute) {
             case self::POST:
-                return $this->canPost($subject,$user);
-            case  self::EDIT:
-                return  $this->canEdit($subject,$user);
+                return $this->canPost($subject, $user);
+            case self::EDIT:
+                return $this->canEdit($subject, $user);
         }
 
         throw new \LogicException('This code should not be reached!');
-
     }
 
-    /**
-     * @param PrivateMessage $subject
-     * @param User $user
-     * @return bool
-     */
     private function canPost(PrivateMessage $subject, User $user): bool
     {
+        $bff = $this->BFFRepository->findOneBy(["token" => $subject->getBff()->getToken()]);
 
-        $bff = $this->BFFRepository->findOneBy(["id" => $subject->getId()]);
-        if ($bff->getSender() !== $user && $bff -> getReceiver() !== $user || !$bff->getIsAccepted()  ||  !$this->security->isGranted("ROLE_ADMIN"))
+
+        if ($bff->getSender() === $user || $bff -> getReceiver() === $user && $bff->getIsAccepted() === true ||  $this->security->isGranted("ROLE_ADMIN"))
         {
-            return false;
+            return true;
         }
-        return true;
+        return false;
+
 
     }
 
-    /**
-     * @param PrivateMessage $subject
-     * @param User $user
-     * @return bool
-     */
-    private function canEdit(PrivateMessage $subject , User $user): bool
+    private function canEdit(PrivateMessage $subject, User $user): bool
     {
+        // this assumes that the Post object has a `getOwner()` method
         if ($subject->getWriter() === $user || $this->security->isGranted("ROLE_ADMIN")){
             return true;
         }
         return false;
-    }
 
+    }
 }

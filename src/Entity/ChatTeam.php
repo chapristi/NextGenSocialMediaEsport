@@ -23,7 +23,9 @@ use Symfony\Component\Validator\Constraints\NotNull;
 
     ],
     "post" => [
-        "security" => 'is_granted("POST_TEAM_MESSAGE",object)',
+        "security_post_denormalize" => 'is_granted("POST_TEAM_MESSAGE",object)',
+
+
 
     ],
 ],

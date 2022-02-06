@@ -50,11 +50,11 @@ final  class RealTimeChatPrivate implements EventSubscriberInterface
                 $this->RequestToRealTimeChat($privateChat->getMessage(), $privateChat->getWriter()->getCode(), $privateChat->getCreatedAt(), "EDIT",  $privateChat->getBff()->getToken(), $privateChat->getToken());
                 break;
             case Request::METHOD_DELETE:
-                $this->RequestToRealTimeChat("","","","DELETE",$privateChat->getBff()->getToken(),$privateChat->getToken());
+                $this->RequestToRealTimeChat("","",null,"DELETE",$privateChat->getBff()->getToken(),$privateChat->getToken());
                 break;
         }
     }
-    private function RequestToRealTimeChat(string $message = null, string $user = null, string $createdAt = null, string $satus, string $BFFToken = null, int $id)
+    private function RequestToRealTimeChat(string $message = null, string $user = null, \DateTime $createdAt = null, string $satus, string $BFFToken = null, string $id)
     {
         $options = array(
             'cluster' => 'eu',
@@ -79,7 +79,7 @@ final  class RealTimeChatPrivate implements EventSubscriberInterface
         }
 
 
-        $pusher->trigger("channel-chatteam-$BFFToken", 'my-event', $data);
+        $pusher->trigger("channel-chatprivate-$BFFToken", 'my-event', $data);
     }
 
 

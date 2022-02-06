@@ -41,6 +41,7 @@ final  class RealTimeChatTeamSubscriber implements EventSubscriberInterface
         if (!$chatTeam instanceof ChatTeam) {
             return;
         }
+
         switch ($method) {
             case Request::METHOD_POST:
                 $this->RequestToRealTimeChat($chatTeam->getMessage(), $chatTeam->getUser()->getCode(), $chatTeam->getCreatedAt(), "POST", $chatTeam->getTeam()->getSlug(), $chatTeam->getToken());
@@ -49,11 +50,11 @@ final  class RealTimeChatTeamSubscriber implements EventSubscriberInterface
                 $this->RequestToRealTimeChat($chatTeam->getMessage(), $chatTeam->getUser()->getCode(), $chatTeam->getCreatedAt(), "EDIT", $chatTeam->getTeam()->getSlug(), $chatTeam->getToken());
                 break;
             case Request::METHOD_DELETE:
-                $this->RequestToRealTimeChat("","","","DELETE",$chatTeam->getTeam()->getSlug(),$chatTeam->getToken());
+                $this->RequestToRealTimeChat("","",null,"DELETE",$chatTeam->getTeam()->getSlug(),$chatTeam->getToken());
 
         }
     }
-        private function RequestToRealTimeChat(string $message = null, string $user = null, string $createdAt = null, string $satus, string $teamToken = null, int $id)
+        private function RequestToRealTimeChat(string $message = null, string $user = null, \DateTime $createdAt = null, string $satus, string $teamToken = null, string $id)
         {
             $options = array(
                 'cluster' => 'eu',

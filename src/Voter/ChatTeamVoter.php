@@ -31,10 +31,12 @@ final class ChatTeamVoter extends Voter
      */
     protected function supports(string $attribute, mixed $subject): bool
     {
+
         // if the attribute isn't one we support, return false
         if (!in_array($attribute, [self::DELETE, self::EDIT,self::POST])) {
             return false;
         }
+
 
         // only vote on `Post` objects
         if (!$subject instanceof ChatTeam) {
@@ -91,7 +93,7 @@ final class ChatTeamVoter extends Voter
      * @param User $user
      * @return bool
      */
-    private function canDelete(ChatTeam $subject, User $user)
+    private function canDelete(ChatTeam $subject, User $user): bool
     {
         $ujt = $this->joinTeamRepository->findByExampleField(
             $this->security->getUser(),
@@ -111,9 +113,11 @@ final class ChatTeamVoter extends Voter
     }
     private function canPost(ChatTeam $subject, User $user){
         $ujt = $this->joinTeamRepository->findByExampleField(
-            $this->security->getUser(),
+            $user,
             $subject -> getTeam()
         );
+
+
         if (!$ujt || $ujt->getIsValidated() !== true){
             return false;
         }

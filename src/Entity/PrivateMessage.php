@@ -18,7 +18,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
     ],
     "post" => [
-        "security" => 'is_granted("POST_PRIVATE_MESSAGE",object)',
+        "security_post_denormalize" => 'is_granted("POST_PRIVATE_MESSAGE",object)',
         "security_message" => "You can't POST because you are not friend with him actually",
     ],
 ],

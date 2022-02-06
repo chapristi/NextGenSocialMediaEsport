@@ -7,6 +7,7 @@ namespace App\Events;
 use ApiPlatform\Core\EventListener\EventPriorities;
 
 use App\Entity\ChatTeam;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
@@ -30,19 +31,24 @@ final class AddUserTchatTeamSubscriber implements EventSubscriberInterface
      */
     public static function getSubscribedEvents():array
     {
+
         return [
-            KernelEvents::VIEW => ['addUserInUserJoinTeam', EventPriorities::PRE_WRITE],
+            KernelEvents::VIEW => ['addUser', EventPriorities::PRE_VALIDATE],
         ];
     }
-    public function  addUserInUserJoinTeam(ViewEvent $event)
+    public function addUser(ViewEvent $event)
     {
+
         $joinTeam = $event->getControllerResult();
 
         $method = $event->getRequest()->getMethod();
+
         if (!$joinTeam instanceof ChatTeam || Request::METHOD_POST !== $method) {
             return;
         }
+
         $joinTeam->setUser($this->security->getUser());
+
 
     }
 

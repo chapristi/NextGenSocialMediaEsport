@@ -26,7 +26,7 @@ final  class AddUserBffSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents():array
     {
         return [
-            KernelEvents::VIEW => ['AddUserBffSubscriber', EventPriorities::PRE_WRITE],
+            KernelEvents::VIEW => ['AddUserBffSubscriber', EventPriorities::PRE_VALIDATE],
         ];
     }
 
