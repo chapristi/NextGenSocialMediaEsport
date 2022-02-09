@@ -29,7 +29,7 @@ class MailService implements MailServiceInterface
 
 
 
-        $mj = new \Mailjet\Client('5fa254dd87cf32f99fcf674d599d4c13','0acb9465ee7927239bfc570ab9782751',true,['version' => 'v3.1']);
+        $mj = new \Mailjet\Client("","",true,['version' => 'v3.1']);
         $body = [
             'Messages' => [
                 [
