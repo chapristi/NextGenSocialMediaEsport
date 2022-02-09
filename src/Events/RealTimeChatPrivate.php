@@ -61,9 +61,7 @@ final  class RealTimeChatPrivate implements EventSubscriberInterface
             'useTLS' => true
         );
         $pusher = new Pusher(
-            '357acb03897880c77f63',
-            '9784c00ccd6c613f81a9',
-            '1343207',
+            "","","",
             $options
         );
 
