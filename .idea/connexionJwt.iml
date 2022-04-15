@@ -175,6 +175,8 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/paypal/paypal-checkout-sdk" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/paypal/paypalhttp" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/debug-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/vich/uploader-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/jms/metadata" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

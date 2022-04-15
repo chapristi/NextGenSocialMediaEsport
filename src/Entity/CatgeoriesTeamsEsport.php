@@ -16,6 +16,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
     collectionOperations: [
         "get" => [
+            "security" => 'is_granted("ROLE_USER")',
 
         ],
 
@@ -24,10 +25,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
             "path" => "/catgeories_teams_esports/multiInsert",
             "method" => "POST",
             "controller" => MultiInsertController::class,
+            "security" => 'is_granted("ROLE_USER")',
+
         ]
     ],
     itemOperations: [
         "get" => [
+            "security" => 'is_granted("ROLE_USER")',
 
         ],
         "put" => [
