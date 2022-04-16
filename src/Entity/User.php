@@ -134,6 +134,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $catgeoriesUsers;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(["read:User", "write:User","admin:Read:User"])]
+
     private $username;
 
 

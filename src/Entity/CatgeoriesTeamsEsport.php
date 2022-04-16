@@ -38,8 +38,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
             "security" => 'is_granted("ROLE_ADMIN")',
         ],
         "delete" => [
-            "security" => 'is_granted("ROLE_ADMIN")',
+            "security" => 'is_granted("DELETE_CATEGORIES_TEAMS",object)',
+
         ],
+
+
         "patch" => [
             "security" => 'is_granted("ROLE_ADMIN")',
         ],

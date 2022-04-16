@@ -13,7 +13,6 @@ use Symfony\Component\Security\Core\Security;
 
 final class CategoriesTeamsVoter extends Voter
 {
-    const POST = "POST_CATEGORIES_TEAMS";
     const DELETE = "DELETE_CATEGORIES_TEAMS";
 
     public function __construct(private Security $security, private UserJoinTeamRepository $joinTeamRepository){
@@ -27,9 +26,12 @@ final class CategoriesTeamsVoter extends Voter
      */
     protected function supports(string $attribute, mixed $subject): bool
     {
-        if (!in_array($attribute, [self::POST, self::DELETE])) {
+
+        if (!in_array($attribute, [ self::DELETE])) {
+
             return false;
         }
+
 
         if (!$subject instanceof CatgeoriesTeamsEsport) {
             return false;
@@ -48,12 +50,11 @@ final class CategoriesTeamsVoter extends Voter
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
+
         if (!$user instanceof  User || !$subject instanceof CatgeoriesTeamsEsport  ){
             return false;
         }
         switch ($attribute) {
-            case self::POST:
-                return $this->canPost($subject,$user);
             case  self::DELETE:
                 return  $this->canDelete($subject,$user);
         }
@@ -62,19 +63,6 @@ final class CategoriesTeamsVoter extends Voter
 
     }
 
-    /**
-     * @param CatgeoriesTeamsEsport $subject
-     * @param User $user
-     * @return bool
-     */
-    private function canPost(CatgeoriesTeamsEsport $subject, User $user): bool
-    {
-        $ujt = $this->joinTeamRepository->findByExampleField($user,$subject->getTeamEsport());
-        if (!empty($ujt[0]->getRole()[0]) && $ujt[0]->getRole()[0] === "ROLE_ADMIN" || $this->security->isGranted('ROLE_ADMIN')  ) {
-            return true;
-        }
-        return false;
-    }
 
     /**
      * @param CatgeoriesTeamsEsport $subject

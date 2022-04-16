@@ -42,14 +42,15 @@ final class UserMailSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $token = Uuid::uuid4();
 
-        $verifMail = (new VerifMail())
-            ->setUser($user[0][0])
-            ->setToken($token);
-        $this -> entityManager -> persist($verifMail);
-        $this -> entityManager -> flush();
-        $this->mailService->sendMail(user_mail: "louis.0505@protonmail.com",subject: "Vous pouvez deshormez verifier votre compte",code: $token);
+        #$token = Uuid::uuid4();
+
+        #$verifMail = (new VerifMail())
+         #   ->setUser($user[0][0])
+          #  ->setToken($token);
+        #$this -> entityManager -> persist($verifMail);
+        #$this -> entityManager -> flush();
+        #$this->mailService->sendMail(user_mail: "louis.0505@protonmail.com",subject: "Vous pouvez deshormez verifier votre compte",code: $token);
 
     }
 }

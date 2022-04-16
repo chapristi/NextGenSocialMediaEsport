@@ -9,6 +9,8 @@ use App\Repository\TeamsEsportRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use App\Repository\UserJoinTeamRepository;
+use Symfony\Component\Security\Core\Security;
 
 class MultiInsertController extends AbstractController
 {
@@ -16,7 +18,7 @@ class MultiInsertController extends AbstractController
     {
         return json_decode(Request::createFromGlobals()->getContent());
     }
-    public function __invoke(EntityManagerInterface $manager,CategoryRepository $categoryRepo,TeamsEsportRepository $teams)
+    public function __invoke(Security $security , UserJoinTeamRepository $joinTeamRepository , EntityManagerInterface $manager,CategoryRepository $categoryRepo, TeamsEsportRepository $teams)
     {
         $requests = $this->getRequest();
         foreach ($requests as $request){
@@ -24,13 +26,23 @@ class MultiInsertController extends AbstractController
             $category  = $categoryRepo->findOneBy(["id"=> explode("/",$requests[0]->category)[3]]);
 
             $team  = $teams->findOneBy(["slug"=>explode("/",$requests[0]->teamEsport)[3]]);
-
-            $categoriesTeams =  (new CatgeoriesTeamsEsport())
-                ->setCategory($category)
-                ->setTeamEsport($team);
+            $ujt = $joinTeamRepository->findByExampleField($security->getUser(),$team);
 
 
-            $manager->persist($categoriesTeams);
+                if (!empty($ujt) && $ujt[0]->getRole()[0] === "ROLE_ADMIN" ||$security->isGranted('ROLE_ADMIN')){
+                    $categoriesTeams =  (new CatgeoriesTeamsEsport())
+                        ->setCategory($category)
+                        ->setTeamEsport($team);
+
+
+                    $manager->persist($categoriesTeams);
+            }else{
+                return $this->json([
+                    "infos" => "Access Denied.",
+                    "code" =>403
+                ],403);
+
+            }
 
         }
         $manager->flush();

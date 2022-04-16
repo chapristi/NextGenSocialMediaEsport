@@ -38,6 +38,9 @@ class UserManager{
         if($this -> findEmail($user -> getEmail())){
             throw new  BadRequestException("cette adresse email existe déjà");
         }
+        $user->setUsername($user->getUsername());
+
+
         $user->setEmail($user->getEmail());
         $password = $this->passwordService->hashPassword(
             $user,
