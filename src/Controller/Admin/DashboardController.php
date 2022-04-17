@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Basket;
+use App\Entity\Category;
 use App\Entity\ChatTeam;
 use App\Entity\Products;
 use App\Entity\TeamsEsport;
@@ -59,7 +60,8 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('UserJoinTeam', "fab fa-steam", UserJoinTeam::class);
         yield MenuItem::linkToCrud('ChatTeam', "fab fa-steam", ChatTeam::class);
         yield MenuItem::linkToCrud('Products', "fab fa-steam", Products::class);
-        yield MenuItem::linkToCrud('Products', "fab fa-steam", Basket::class);
+        yield MenuItem::linkToCrud('Basket', "fab fa-steam", Basket::class);
+        yield MenuItem::linkToCrud('Category', "fab fa-steam", Category::class);
 
 
     }
