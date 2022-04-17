@@ -79,7 +79,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $email;
 
     #[ORM\Column(type: 'json')]
-    #[Groups(["read:User","admin:Read:User"])]
+    #[Groups(["read:CatgeoriesUser","read:User","admin:Read:User"])]
     private array $roles = [];
 
     #[ORM\Column(type: 'string')]
@@ -134,7 +134,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $catgeoriesUsers;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(["read:User", "write:User","admin:Read:User"])]
+    #[Groups(["read:CatgeoriesUser","read:User", "write:User","admin:Read:User"])]
 
     private $username;
 

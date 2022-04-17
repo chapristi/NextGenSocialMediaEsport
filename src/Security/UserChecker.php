@@ -15,11 +15,11 @@ final class UserChecker implements UserCheckerInterface
         if (!$user instanceof AppUser) {
             return;
         }
-
-        if (!$user->getIsVerified()) {
+        return;
+        #if (!$user->getIsVerified()) {
             // show if account is verified
-            throw new CustomUserMessageAccountStatusException('You have to verif your account');
-        }
+         #   throw new CustomUserMessageAccountStatusException('You have to verif your account');
+        #}
     }
 
     public function checkPostAuth(UserInterface $user): void

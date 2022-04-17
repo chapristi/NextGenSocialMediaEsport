@@ -60,14 +60,14 @@ class TeamsEsport
 
 
     private ?int $id;
-    #[Groups(["read:TeamsEsport","admin:Read:TeamsEsport","write:TeamsEsport"])]
+    #[Groups(["read:CatgeoriesTeams","read:TeamsEsport","admin:Read:TeamsEsport","write:TeamsEsport"])]
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $name;
-    #[Groups(["read:TeamsEsport","admin:Read:TeamsEsport","write:TeamsEsport","admin:Write:TeamsEsport","admin:Update:TeamsEsport"])]
+    #[Groups(["read:CatgeoriesTeams","read:TeamsEsport","admin:Read:TeamsEsport","write:TeamsEsport","admin:Write:TeamsEsport","admin:Update:TeamsEsport"])]
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $description;
 
-    #[Groups(["read:TeamsEsport","admin:Read:TeamsEsport","admin:Write:TeamsEsport","admin:Update:TeamsEsport"])]
+    #[Groups(["read:CatgeoriesTeams","read:TeamsEsport","admin:Read:TeamsEsport","admin:Write:TeamsEsport","admin:Update:TeamsEsport"])]
     #[ApiProperty(identifier: true)]
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -75,7 +75,7 @@ class TeamsEsport
      * @Gedmo\Slug(fields={"name"})
      */
     private ?string $slug;
-    #[Groups(["read:TeamsEsport","admin:Read:TeamsEsport","admin:Write:TeamsEsport","admin:Update:TeamsEsport"])]
+    #[Groups(["read:CatgeoriesTeams","read:TeamsEsport","admin:Read:TeamsEsport","admin:Write:TeamsEsport","admin:Update:TeamsEsport"])]
     #[ORM\Column(type: 'datetime')]
     private $createdAt;
     #[ORM\Column(type: 'string', length: 255)]

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\CatgeoriesTeamsEsport;
+use App\Entity\CatgeoriesUser;
 use App\Repository\CategoryRepository;
 use App\Repository\CatgeoriesTeamsEsportRepository;
 use App\Repository\TeamsEsportRepository;
@@ -12,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Repository\UserJoinTeamRepository;
 use Symfony\Component\Security\Core\Security;
 
-class MultiInsertController extends AbstractController
+class MultiInsertCategoriesUserController extends AbstractController
 {
     private function getRequest()
     {
@@ -21,50 +22,29 @@ class MultiInsertController extends AbstractController
     public function __invoke(Security $security , UserJoinTeamRepository $joinTeamRepository , EntityManagerInterface $manager,CategoryRepository $categoryRepo, TeamsEsportRepository $teams)
     {
         $requests = $this->getRequest();
-
         foreach ($requests as $request){
-
-
             $category  = $categoryRepo->findOneBy(["id"=> explode("/",$request->category)[3]]);
-            $team  = $teams->findOneBy(["slug"=>explode("/",$request->teamEsport)[3]]);
 
-
-            $ujt = $joinTeamRepository->findByExampleField($security->getUser(),$team);
-
-
-                if (!empty($ujt) && $ujt[0]->getRole()[0] === "ROLE_ADMIN" ||$security->isGranted('ROLE_ADMIN')){
-                    $categoriesTeams =  (new CatgeoriesTeamsEsport())
-                        ->setCategory($category)
-                        ->setTeamEsport($team);
-
-
-                    $manager->persist($categoriesTeams);
-            }else{
-                return $this->json([
-                    "infos" => "Access Denied.",
-                    "code" =>403
-                ],403);
-
+            if (!$category){
+                    return $this->json([
+                        "infos" => "Access Denied.",
+                        "code" =>403
+                    ],403);
             }
 
-        }
+            $categoriesUser =  (new CatgeoriesUser())
+                    ->setCategory($category)
+                    ;
+                $manager->persist($categoriesUser );
+            }
         $manager->flush();
         return $this->json([
-            "infos" => "L'admin de la team a bien reussi à attribuer toutes les categories voulu",
+            "infos" => "l'utilisateur c'est bien fait attribué les categories demandé ",
             "code" =>201
         ],201);
 
 
-
-
-
-
-
     }
-
-
-
-
 
 
 }

@@ -16,7 +16,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
     collectionOperations: [
         "get" => [
-            "security" => 'is_granted("ROLE_USER")',
+            #"security" => 'is_granted("ROLE_USER")',
 
         ],
 
@@ -31,31 +31,26 @@ use Symfony\Component\Serializer\Annotation\Groups;
     ],
     itemOperations: [
         "get" => [
-            "security" => 'is_granted("ROLE_USER")',
-
+           #"security" => 'is_granted("ROLE_USER")',
         ],
         "put" => [
             "security" => 'is_granted("ROLE_ADMIN")',
         ],
         "delete" => [
             "security" => 'is_granted("DELETE_CATEGORIES_TEAMS",object)',
-
         ],
-
-
         "patch" => [
             "security" => 'is_granted("ROLE_ADMIN")',
         ],
     ],
     denormalizationContext: ["groups" => ["write:CatgeoriesTeams"]],
-    #mercure: true,
     normalizationContext: ["groups" => ["read:CatgeoriesTeams"]],
+    paginationClientItemsPerPage: true,
+    paginationItemsPerPage: 10,
+    //le client peut donc choisir le nombre d'item par page
+    paginationMaximumItemsPerPage: 10,
 )]
 #[ApiFilter(SearchFilter::class, properties: ['category.name' => 'exact'])]
-
-
-
-
 class CatgeoriesTeamsEsport
 {
     #[ORM\Id]
