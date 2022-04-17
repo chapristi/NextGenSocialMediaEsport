@@ -72,6 +72,9 @@ class Category
 
     private $description;
 
+    #[ORM\Column(type: 'text')]
+    private $path;
+
     public function __construct()
     {
         $this->teamEsport = new ArrayCollection();
@@ -194,6 +197,18 @@ class Category
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getPath(): ?string
+    {
+        return $this->path;
+    }
+
+    public function setPath(string $path): self
+    {
+        $this->path = $path;
 
         return $this;
     }
