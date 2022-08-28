@@ -7,9 +7,11 @@ if someone are interested to make the front with me of course just add me on dis
 - dockerized my projects 
 - add some test
 - gitlab ci/cd
-- comment the code 
+- comment the code
+- protect my branch 
 - review all the code with phpstan ...
 - add a subscription system with anvantages <br>
+
 ext
 <br>
 chapristi#6150 on discord if you have some advice 
