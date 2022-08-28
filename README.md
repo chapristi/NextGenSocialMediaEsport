@@ -9,6 +9,7 @@ if someone are interested to make the front with me of course just add me on dis
 - gitlab ci/cd
 - comment the code 
 - review all the code with phpstan ...
-- add a subscription system with anvantages
+- add a subscription system with anvantages <br>
 ext
+<br>
 chapristi#6150 on discord if you have some advice 
